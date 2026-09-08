@@ -272,12 +272,14 @@ optional `timeZone` field on the entry if a state spans zones and the default is
 
 Two things follow from that:
 
-- **The deadline is displayed in the venue's own clock**, e.g. "Sep 20, 11:59 PM EDT", which is
-  what the organizer's flyer says.
-- **"Days left" counts calendar days**, from the viewer's today to the deadline's own printed date.
-  This is why two deadlines on the same date always show the same number now. The earlier version
-  did `Math.ceil()` on raw elapsed milliseconds, so a 10:00 AM deadline and an 11:59 PM deadline on
-  the same day could report "0 days" and "1 day".
+- **The deadline is converted into the viewer's own time zone for display**, e.g. an 11:59 PM PDT
+  deadline reads "Sep 9, 1:59 AM CDT" to someone on Central time. The organizer's original stated
+  time is kept in the pill's tooltip, so the flyer's wording is never lost.
+- **"Days left" counts calendar days in that same viewer zone.** Because the count and the printed
+  date are measured in one zone, the number always agrees with the date beside it, and two
+  deadlines landing on the same date always show the same number. The earlier version did
+  `Math.ceil()` on raw elapsed milliseconds, so a 10:00 AM deadline and an 11:59 PM deadline on the
+  same day could report "0 days" and "1 day".
 
 The viewer's zone is auto-detected with `Intl.DateTimeFormat().resolvedOptions().timeZone`, mapped
 onto one of seven US zones (other US-equivalent IANA ids like `America/Detroit` are aliased in;
@@ -298,7 +300,9 @@ list re-renders and that entry drops off, since it's no longer registerable.
 - **Distance**: type an address (or click "Use my location") and click "Set address"; the app
   geocodes it via the free [OpenStreetMap Nominatim](https://nominatim.org/) API (no API key, no
   data sent anywhere except that one lookup) and computes straight-line distance to each
-  tournament's venue.
+  tournament's venue. To clear a saved location, empty the address box and press "Set address"
+  again: distances disappear and, if the list was sorted by distance, it falls back to the default
+  deadline sort.
 - **Prize money**: highest total purse first; tournaments with no listed prize sort to the bottom.
 
 There's no "show past tournaments" option. Past and closed-registration tournaments are always

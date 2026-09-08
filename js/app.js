@@ -37,7 +37,7 @@
   // ---------- Init ----------
   if (userCoords) {
     addressInput.value = userCoords.label;
-    setAddressStatus(`Using: ${userCoords.label}`, false);
+    setUsingAddressStatus(userCoords.label);
   }
   S.populateStateFilter(stateFilter);
   S.populateTimeZoneSelect(timeZoneSelect, userZone);
@@ -69,12 +69,31 @@
 
   applyAddressBtn.addEventListener("click", async () => {
     const query = addressInput.value.trim();
+    // Submitting an empty box is how you clear a saved location.
     if (!query) {
-      setAddressStatus("Enter an address first.", true);
+      clearAddress();
       return;
     }
     await geocodeAndApply(query);
   });
+
+  /**
+   * Forgets the saved location: distances disappear from the cards, and if the
+   * list was sorted by distance we fall back to the default deadline sort,
+   * since "nearest" is meaningless with no address to measure from.
+   */
+  function clearAddress() {
+    if (!userCoords) {
+      setAddressStatus("No location set.", false);
+      return;
+    }
+    userCoords = null;
+    S.clearStoredAddress();
+    addressInput.value = "";
+    if (sortSelect.value === "distance") sortSelect.value = "deadline";
+    setAddressStatus("Location cleared.", false);
+    render();
+  }
 
   addressInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
@@ -98,7 +117,7 @@
         };
         addressInput.value = userCoords.label;
         S.storeAddress(userCoords);
-        setAddressStatus("Using your current location.", false);
+        setUsingAddressStatus("your current location");
         sortSelect.value = "distance";
         render();
       },
@@ -209,7 +228,7 @@
       }
       userCoords = { lat: geo.lat, lng: geo.lng, label: query };
       S.storeAddress(userCoords);
-      setAddressStatus(`Using: ${query}`, false);
+      setUsingAddressStatus(query);
       sortSelect.value = "distance";
       render();
     } catch (err) {
@@ -222,6 +241,11 @@
   function setAddressStatus(msg, isError) {
     addressStatus.textContent = msg;
     addressStatus.classList.toggle("error", !!isError);
+  }
+
+  /** Confirms the active location and points out how to clear it. */
+  function setUsingAddressStatus(label) {
+    setAddressStatus(`Using: ${label}. To clear it, empty the box and press Set address.`, false);
   }
 
   // ---------- Live countdown ----------
@@ -247,8 +271,8 @@
           return;
         }
 
-        const venueZone = pill.getAttribute("data-venue-zone") || userZone;
-        const calendarDays = S.calendarDaysAcrossZones(now, userZone, deadline, venueZone);
+        // Counted in the viewer's zone, matching the date printed in the pill.
+        const calendarDays = S.calendarDaysBetween(now, deadline, userZone);
         const target = pill.querySelector(".deadline-countdown");
         if (!target) return;
 

@@ -231,6 +231,9 @@ const Shared = (function () {
   function storeAddress(coords) {
     try { localStorage.setItem(ADDR_KEY, JSON.stringify(coords)); } catch {}
   }
+  function clearStoredAddress() {
+    try { localStorage.removeItem(ADDR_KEY); } catch {}
+  }
 
   // ---------- Enrichment / filtering / sorting ----------
 
@@ -258,11 +261,11 @@ const Shared = (function () {
     const isPast = endInstant ? endInstant.getTime() < now.getTime() : false;
     const deadlinePassed = deadline ? deadline.getTime() < now.getTime() : false;
 
-    // Calendar days: viewer's "today" to the deadline's own printed date, so
-    // same-date deadlines always agree and the count matches the date shown.
-    const daysUntilDeadline = deadline
-      ? calendarDaysAcrossZones(now, zone, deadline, venueZone)
-      : null;
+    // Everything the viewer sees is expressed in their own zone: the deadline
+    // is converted into it for display, and days remaining is counted in it.
+    // Both sides using the same zone is what keeps the number consistent with
+    // the date printed next to it.
+    const daysUntilDeadline = deadline ? calendarDaysBetween(now, deadline, zone) : null;
     const msUntilDeadline = deadline ? deadline.getTime() - now.getTime() : null;
 
     let distanceMiles = null;
@@ -271,7 +274,7 @@ const Shared = (function () {
     }
 
     return {
-      ...t, start, end, endInstant, deadline, venueZone,
+      ...t, start, end, endInstant, deadline, venueZone, userZone: zone,
       isPast, deadlinePassed, daysUntilDeadline, msUntilDeadline, distanceMiles,
     };
   }
@@ -354,16 +357,26 @@ const Shared = (function () {
     return `${calendarDays} days left`;
   }
 
-  /** Deadline shown in the venue's own clock, e.g. "Sep 20, 11:59 PM EDT". */
+  /** A deadline rendered in any zone, e.g. "Sep 20, 11:59 PM EDT". */
+  function formatDeadlineIn(deadline, timeZone) {
+    if (!deadline) return "";
+    const datePart = deadline.toLocaleDateString("en-US", {
+      timeZone, month: "short", day: "numeric",
+    });
+    const timePart = deadline.toLocaleTimeString("en-US", {
+      timeZone, hour: "numeric", minute: "2-digit",
+    });
+    return `${datePart}, ${timePart} ${zoneAbbrev(deadline, timeZone)}`.trim();
+  }
+
+  /** What the viewer sees: the deadline converted into their own zone. */
+  function formatDeadlineInUserZone(t) {
+    return formatDeadlineIn(t.deadline, t.userZone || getUserTimeZone());
+  }
+
+  /** The organizer's own stated time, kept for the tooltip. */
   function formatDeadlineInVenueZone(t) {
-    if (!t.deadline) return "";
-    const datePart = t.deadline.toLocaleDateString("en-US", {
-      timeZone: t.venueZone, month: "short", day: "numeric",
-    });
-    const timePart = t.deadline.toLocaleTimeString("en-US", {
-      timeZone: t.venueZone, hour: "numeric", minute: "2-digit",
-    });
-    return `${datePart}, ${timePart} ${zoneAbbrev(t.deadline, t.venueZone)}`.trim();
+    return formatDeadlineIn(t.deadline, t.venueZone);
   }
 
   function renderDeadlinePill(t) {
@@ -375,15 +388,22 @@ const Shared = (function () {
       return `<span class="deadline-pill tbd">Deadline: ${t.deadlineNote ? escapeHtml(t.deadlineNote) : "TBD"}</span>`;
     }
     const label = countdownLabel(t.msUntilDeadline, t.daysUntilDeadline);
-    const when = formatDeadlineInVenueZone(t);
+    // Shown in the viewer's own zone. The organizer's stated local time is
+    // kept in the tooltip so the original wording is never lost.
+    const when = formatDeadlineInUserZone(t);
+    const atVenue = formatDeadlineInVenueZone(t);
+    const sameClock = when === atVenue;
     const note = t.deadlineNote ? ` (${t.deadlineNote})` : "";
+    const tip = sameClock
+      ? `Closes ${when}${note}`
+      : `Closes ${when} your time, which is ${atVenue} where the tournament is held${note}`;
     // data-deadline lets the live ticker refresh this pill in place, with no
     // re-render, re-sort or scroll jump.
     return (
       `<span class="deadline-pill ${status}" data-deadline="${t.deadline.toISOString()}"` +
       ` data-venue-zone="${escapeAttr(t.venueZone)}"` +
       ` data-deadline-id="${escapeAttr(t.id)}"` +
-      ` title="Closes ${escapeAttr(when)}${escapeAttr(note)}">` +
+      ` title="${escapeAttr(tip)}">` +
       `<span class="deadline-countdown">${label}</span> · ${escapeHtml(when)}</span>`
     );
   }
@@ -486,12 +506,13 @@ const Shared = (function () {
   return {
     ADDR_KEY, GEOCODE_CACHE_KEY, TZ_KEY, US_TIME_ZONES,
     getAllTournaments,
-    loadStoredAddress, storeAddress,
+    loadStoredAddress, storeAddress, clearStoredAddress,
     venueTimeZone, getUserTimeZone, setUserTimeZone, detectUserTimeZone,
     timeZoneLabel, zoneAbbrev, getZonedParts, zonedWallClockToInstant,
     calendarDaysBetween, calendarDaysAcrossZones, parseCalendarDate,
     enrich, isRegisterable, isLeague, compareNullableDates, sortList,
-    urgencyStatus, renderDeadlinePill, countdownLabel, formatDeadlineInVenueZone,
+    urgencyStatus, renderDeadlinePill, countdownLabel,
+    formatDeadlineIn, formatDeadlineInUserZone, formatDeadlineInVenueZone,
     formatDate, formatDateRange, escapeHtml, escapeAttr, haversineMiles,
     geocode, debounce, populateStateFilter, populateTimeZoneSelect,
   };
