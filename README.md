@@ -272,14 +272,23 @@ optional `timeZone` field on the entry if a state spans zones and the default is
 
 Two things follow from that:
 
-- **The deadline is converted into the viewer's own time zone for display**, e.g. an 11:59 PM PDT
-  deadline reads "Sep 9, 1:59 AM CDT" to someone on Central time. The organizer's original stated
-  time is kept in the pill's tooltip, so the flyer's wording is never lost.
+- **The published clock time is read against the viewer's selected zone.** A deadline stored as
+  `23:59` reads "11:59 PM" whichever zone is picked: "11:59 PM EDT" on Eastern, "11:59 PM HST" on
+  Hawaii. The countdown runs to 11:59 PM in that zone, so switching zones shifts the time
+  remaining accordingly.
 - **"Days left" counts calendar days in that same viewer zone.** Because the count and the printed
   date are measured in one zone, the number always agrees with the date beside it, and two
   deadlines landing on the same date always show the same number. The earlier version did
   `Math.ceil()` on raw elapsed milliseconds, so a 10:00 AM deadline and an 11:59 PM deadline on the
   same day could report "0 days" and "1 day".
+
+**Know the trade-off this makes.** Showing the published clock time in the viewer's zone is not the
+same as converting the real instant. For a viewer in a different zone from the venue, the displayed
+cutoff is off by the zone difference. A New York tournament closing at 11:59 PM EDT displays to a
+Hawaii viewer as "11:59 PM HST", which is six hours after the organizer's actual cutoff. Whenever
+the two zones differ, the pill's tooltip spells out the organizer's real local cutoff
+("The organizer lists it as Sep 11, 11:59 PM EDT local to the venue"), and `deadlineAtVenue` on the
+enriched record holds that true instant if stricter behaviour is ever wanted.
 
 The viewer's zone is auto-detected with `Intl.DateTimeFormat().resolvedOptions().timeZone`, mapped
 onto one of seven US zones (other US-equivalent IANA ids like `America/Detroit` are aliased in;

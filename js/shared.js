@@ -250,21 +250,28 @@ const Shared = (function () {
     const start = parseCalendarDate(t.startDate);
     const end = t.endDate ? parseCalendarDate(t.endDate) : start;
 
-    // Comparison instants: anchored to the venue's local clock.
+    // The event is over once it's over where it's actually held.
     const endInstant = t.endDate
       ? zonedWallClockToInstant(t.endDate + "T23:59:59", venueZone)
       : (t.startDate ? zonedWallClockToInstant(t.startDate + "T23:59:59", venueZone) : null);
+
+    // The published clock time is read against the viewer's selected zone, so
+    // a deadline written as 23:59 reads "11:59 PM" whichever zone is picked,
+    // and the countdown runs to 11:59 PM in that zone.
     const deadline = t.registrationDeadline
+      ? zonedWallClockToInstant(t.registrationDeadline, zone)
+      : null;
+
+    // The same clock time read against the venue's zone: the organizer's real
+    // cutoff. Kept for the tooltip so the true instant is never hidden.
+    const deadlineAtVenue = t.registrationDeadline
       ? zonedWallClockToInstant(t.registrationDeadline, venueZone)
       : null;
 
     const isPast = endInstant ? endInstant.getTime() < now.getTime() : false;
     const deadlinePassed = deadline ? deadline.getTime() < now.getTime() : false;
 
-    // Everything the viewer sees is expressed in their own zone: the deadline
-    // is converted into it for display, and days remaining is counted in it.
-    // Both sides using the same zone is what keeps the number consistent with
-    // the date printed next to it.
+    // Counted in the viewer's zone, matching the date printed beside it.
     const daysUntilDeadline = deadline ? calendarDaysBetween(now, deadline, zone) : null;
     const msUntilDeadline = deadline ? deadline.getTime() - now.getTime() : null;
 
@@ -274,7 +281,7 @@ const Shared = (function () {
     }
 
     return {
-      ...t, start, end, endInstant, deadline, venueZone, userZone: zone,
+      ...t, start, end, endInstant, deadline, deadlineAtVenue, venueZone, userZone: zone,
       isPast, deadlinePassed, daysUntilDeadline, msUntilDeadline, distanceMiles,
     };
   }
@@ -374,9 +381,9 @@ const Shared = (function () {
     return formatDeadlineIn(t.deadline, t.userZone || getUserTimeZone());
   }
 
-  /** The organizer's own stated time, kept for the tooltip. */
+  /** The organizer's own stated cutoff, in the venue's zone. */
   function formatDeadlineInVenueZone(t) {
-    return formatDeadlineIn(t.deadline, t.venueZone);
+    return formatDeadlineIn(t.deadlineAtVenue || t.deadline, t.venueZone);
   }
 
   function renderDeadlinePill(t) {
@@ -392,11 +399,14 @@ const Shared = (function () {
     // kept in the tooltip so the original wording is never lost.
     const when = formatDeadlineInUserZone(t);
     const atVenue = formatDeadlineInVenueZone(t);
-    const sameClock = when === atVenue;
+    const sameZone = t.userZone === t.venueZone;
     const note = t.deadlineNote ? ` (${t.deadlineNote})` : "";
-    const tip = sameClock
+    // When the viewer is in a different zone from the venue, the shown time is
+    // the published clock time read in their zone, so say what the organizer
+    // actually listed as well rather than leaving the real cutoff hidden.
+    const tip = sameZone
       ? `Closes ${when}${note}`
-      : `Closes ${when} your time, which is ${atVenue} where the tournament is held${note}`;
+      : `Shown as ${when} in your selected time zone. The organizer lists it as ${atVenue} local to the venue${note}`;
     // data-deadline lets the live ticker refresh this pill in place, with no
     // re-render, re-sort or scroll jump.
     return (
