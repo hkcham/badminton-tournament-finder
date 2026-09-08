@@ -1,0 +1,515 @@
+:root {
+  --court-green-dark: #0b5d38;
+  --court-green: #157a4a;
+  --court-green-mid: #1f9c5c;
+  --court-green-light: #e7f6ec;
+  --line-white: #ffffff;
+  --ink: #123524;
+  --ink-soft: #3d5f4d;
+  --card-bg: #ffffff;
+  --border: #cfe9da;
+  --shadow: 0 2px 10px rgba(11, 93, 56, 0.08);
+  --shadow-hover: 0 6px 20px rgba(11, 93, 56, 0.16);
+  --urgent: #c62828;
+  --urgent-bg: #fdecea;
+  --soon: #b7791f;
+  --soon-bg: #fff6e0;
+  --ok: #157a4a;
+  --ok-bg: #e7f6ec;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font);
+  background: var(--court-green-light);
+  color: var(--ink);
+}
+
+a { color: var(--court-green-dark); }
+
+header.site-header {
+  position: relative;
+  background: var(--court-green);
+  color: #fff;
+  padding: 28px 20px 22px;
+  box-shadow: var(--shadow);
+}
+
+.header-inner {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.logo-badge {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+}
+
+.logo-badge svg { width: 34px; height: 34px; }
+.logo-img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.site-title h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  letter-spacing: 0.2px;
+}
+
+.tab-bar {
+  background: var(--court-green-dark);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.tab-bar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 4px;
+  padding: 0 20px;
+}
+
+.tab-link {
+  display: inline-block;
+  padding: 10px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #cfe9da;
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.tab-link:hover { color: #fff; }
+.tab-link.active {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.site-title p {
+  margin: 4px 0 0;
+  font-size: 0.92rem;
+  color: #d9f2e3;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 20px 60px;
+}
+
+.banner {
+  background: #fff8e1;
+  border: 1px solid #f0dfa0;
+  color: #6b5514;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  margin-bottom: 18px;
+}
+
+.controls {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 150px;
+}
+
+.field label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.field input[type="text"],
+.field select {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.92rem;
+  background: #fff;
+  color: var(--ink);
+  min-width: 170px;
+}
+
+.field input[type="text"]:focus,
+.field select:focus {
+  outline: 2px solid var(--court-green-mid);
+  outline-offset: 1px;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn {
+  background: var(--court-green);
+  color: #fff;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+.btn:hover { background: var(--court-green-dark); }
+.btn.secondary {
+  background: #fff;
+  color: var(--court-green-dark);
+  border: 1px solid var(--court-green);
+}
+.btn.secondary:hover { background: var(--court-green-light); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.status-msg {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  min-height: 1.1em;
+}
+.status-msg.error { color: var(--urgent); }
+
+.results-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  position: relative;
+}
+.card:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 1.12rem;
+  color: var(--ink);
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.badge.level { background: var(--court-green-light); color: var(--court-green-dark); border: 1px solid var(--border); }
+.badge.source { background: #eef2ff; color: #3949ab; border: 1px solid #d3daf7; }
+.badge.league-badge { background: var(--court-green-dark); color: #fff; border: 1px solid var(--court-green-dark); }
+
+.card.is-league { border-left: 4px solid var(--court-green-dark); }
+
+.deadline-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.deadline-pill.urgent { background: var(--urgent-bg); color: var(--urgent); }
+.deadline-pill.soon { background: var(--soon-bg); color: var(--soon); }
+.deadline-pill.ok { background: var(--ok-bg); color: var(--ok); }
+.deadline-pill.past { background: #eee; color: #777; }
+.deadline-pill.tbd { background: #eef1f3; color: #5a6b74; }
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 10px;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+
+.card-meta .meta-item { display: flex; align-items: center; gap: 5px; }
+
+.card-desc {
+  margin: 10px 0 0;
+  font-size: 0.87rem;
+  color: var(--ink-soft);
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Pin "View / Register" to the bottom-right corner of the card no matter
+   how the row wraps (e.g. a long prize line on a narrow screen). The auto
+   margin pushes it to the end of whichever flex line it lands on. */
+.card-footer .link-btn {
+  margin-left: auto;
+}
+
+.prize {
+  font-weight: 700;
+  color: var(--court-green-dark);
+}
+
+.link-btn {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--court-green-dark);
+  padding: 7px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-block;
+}
+.link-btn:hover { background: var(--court-green); }
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--ink-soft);
+  background: var(--card-bg);
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+}
+
+footer.site-footer {
+  text-align: center;
+  padding: 24px 20px 40px;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+}
+footer.site-footer a { color: var(--court-green-dark); }
+
+/* ---------- Map view ---------- */
+
+.map-layout {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.map-sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  overflow-y: auto;
+  height: 70vh;
+  padding: 6px;
+}
+
+.map-sidebar-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 8px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.map-sidebar-row:hover { background: var(--court-green-light); }
+.map-sidebar-row.active { background: var(--court-green-light); box-shadow: inset 3px 0 0 var(--court-green); }
+
+.map-sidebar-row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.map-sidebar-row-text strong {
+  font-size: 0.85rem;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.map-sidebar-row-text span {
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+}
+
+.map-container-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+#mapContainer {
+  height: 70vh;
+  width: 100%;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  background: var(--court-green-light);
+}
+
+/* Recolor the standard OSM basemap to a light white/gray so the page reads
+   as green-and-white (markers/UI carry all the green) instead of the tiles'
+   native blue/tan/yellow palette. */
+#mapContainer .leaflet-tile-pane {
+  filter: grayscale(0.85) brightness(1.12) contrast(0.9) saturate(0.3);
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px var(--border);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.legend-dot.urgent { background: var(--urgent); }
+.legend-dot.soon { background: var(--soon); }
+.legend-dot.ok { background: var(--ok); }
+.legend-dot.tbd { background: #5a6b74; }
+.legend-dot.shape-square { border-radius: 2px; }
+
+.league-marker-icon {
+  background: transparent !important;
+  border: none !important;
+}
+.league-marker-icon span {
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
+}
+
+.legend-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 6px 0;
+}
+
+.legend-shape {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+  background: var(--court-green);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px var(--border);
+}
+.legend-shape-round { border-radius: 50%; }
+.legend-shape-square { border-radius: 2px; }
+
+.map-legend {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  z-index: 400;
+  background: rgba(255,255,255,0.95);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  box-shadow: var(--shadow);
+}
+.map-legend strong { display: block; color: var(--ink); margin-bottom: 4px; font-size: 0.78rem; }
+.map-legend .legend-row { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+
+.map-note {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin: 10px 2px 0;
+}
+
+/* Leaflet popup re-themed to match the site */
+.leaflet-popup-content-wrapper {
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(11, 93, 56, 0.25);
+}
+.leaflet-popup-content { margin: 12px 14px; }
+.map-popup h4 { margin: 0 0 4px; color: var(--ink); font-size: 1rem; }
+.map-popup-meta { font-size: 0.82rem; color: var(--ink-soft); margin-top: 4px; }
+.leaflet-container a.link-btn { color: #fff; }
+.leaflet-control-attribution { font-size: 0.68rem; }
+
+@media (max-width: 640px) {
+  .header-inner { flex-direction: column; align-items: flex-start; }
+  .map-layout { flex-direction: column; }
+  .map-sidebar { width: 100%; height: 220px; }
+  #mapContainer { height: 60vh; }
+}

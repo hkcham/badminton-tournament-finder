@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tournament Map | US Badminton Tournament Finder</title>
+<link rel="icon" href="img/shuttle-logo.jpg" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo-badge">
+      <img src="img/shuttle-logo.jpg" alt="Badminton shuttlecock logo" class="logo-img" />
+    </div>
+    <div class="site-title">
+      <h1>US Badminton Tournament Finder</h1>
+      <p>Badminton tournaments currently available in the United States, mapped.</p>
+    </div>
+  </div>
+</header>
+
+<nav class="tab-bar" aria-label="Page views">
+  <div class="tab-bar-inner">
+    <a class="tab-link" href="index.html">📋 List</a>
+    <a class="tab-link active" href="map.html">🗺️ Map</a>
+  </div>
+</nav>
+
+<main>
+  <section class="controls" aria-label="Map filters">
+    <div class="controls-row">
+      <div class="field" style="flex:1 1 220px;">
+        <label for="mapSearchInput">Search</label>
+        <input type="text" id="mapSearchInput" placeholder="Tournament, city, venue…" />
+      </div>
+      <div class="field">
+        <label for="mapStateFilter">State</label>
+        <select id="mapStateFilter">
+          <option value="">All states</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="mapTypeFilter">Type</label>
+        <select id="mapTypeFilter">
+          <option value="">Tournaments &amp; leagues</option>
+          <option value="tournament">Tournaments only</option>
+          <option value="league">Leagues only</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <div class="status-msg" id="mapResultsCount"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="map-layout">
+    <aside class="map-sidebar" id="mapSidebar" aria-label="Tournament list">
+      <!-- populated by js/map.js -->
+    </aside>
+    <div class="map-container-wrap">
+      <div id="mapContainer"></div>
+      <div id="mapLegend" class="map-legend">
+        <strong>Registration deadline</strong>
+        <div class="legend-row"><span class="legend-dot urgent"></span> ≤ 3 days left</div>
+        <div class="legend-row"><span class="legend-dot soon"></span> 4–14 days left</div>
+        <div class="legend-row"><span class="legend-dot ok"></span> 15+ days left</div>
+        <div class="legend-row"><span class="legend-dot tbd"></span> Deadline TBD</div>
+        <hr class="legend-divider" />
+        <div class="legend-row"><span class="legend-shape legend-shape-round"></span> Tournament</div>
+        <div class="legend-row"><span class="legend-shape legend-shape-square"></span> League</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="map-note" id="mapUnlocatedNote" hidden></p>
+</main>
+
+<footer class="site-footer">
+  <p>
+    Map tiles &amp; geocoding by <a href="https://carto.com/" target="_blank" rel="noopener">CARTO</a> /
+    <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.
+    Marker positions are approximate (city/venue level). See the <a href="index.html">List view</a> for full details and sorting.
+  </p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/data.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/map.js"></script>
+</body>
+</html>
