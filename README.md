@@ -228,25 +228,39 @@ exactly this automatically for the three sources it checks.) Field reference:
 | `sourcePlatform` | `"TournamentSoftware"`, `"Facebook"`, `"Instagram"`, `"Club Website"`, or `"USA Badminton"` |
 | `sourceUrl` | Link where people actually register or find current details |
 
-## Keeping this site current: the daily scheduled task
+## Keeping this site current: two scheduled tasks
 
-A local scheduled task, **"Daily badminton tournament data refresh"**, runs once a day (6:01 AM
-local time by default) and does the sweep described throughout this README automatically:
+Two local scheduled tasks keep `js/data.js` fresh. They deliberately cover different sources on
+different cadences, and neither should be edited to overlap with the other.
+
+**1. "Daily badminton tournament data refresh"** (every day, 6:01 AM local):
 
 1. Re-checks TournamentSoftware's tournament and league search pages for anything new, and
    refreshes deadline/date/prize info on existing entries if a source now shows more than before.
-2. Re-sweeps the 38 college club Instagram accounts in `badminton instagrams.txt` for newly-posted
-   open tournaments (reading post-thumbnail alt text, as described above). Expect very few hits;
-   that's normal, see the Instagram section above.
-3. Re-checks the Facebook Pages of clubs already in `js/data.js`, plus a web search for others.
-4. Appends a dated summary of what it found to `CHANGELOG.md` in the project root, and updates
-   `js/data.js` directly.
+2. Re-checks the Facebook Pages of clubs already in `js/data.js`, plus a web search for others.
+3. Appends a dated summary to `CHANGELOG.md` and commits/pushes, which publishes the change.
 
-**Important:** this task runs locally, inside this Claude Code app, so it only actually fires when
-this app has an active session on this machine (not truly 24/7; if the app was closed when it was
-due, it runs on next launch). It is not a cloud/GitHub-based automation. You can see and manage it
-in the "Scheduled" section of the app sidebar: pause it, change its time, or click "Run now" to
-trigger a check immediately (worth doing once up front, so it can pre-approve the browser/tool
+**2. "Biweekly badminton Instagram sweep (Apify)"** (1st and 15th of each month, 7:00 AM local):
+
+1. Reads the account list in `badminton instagrams.txt`.
+2. Runs the `apify/instagram-scraper` actor once for all accounts, pulling the **last 10 posts per
+   account**, and reads only the post and its caption. Engagement data (comments, likes, views,
+   shares, follower counts) is explicitly out of scope and is never collected or stored.
+3. Adds any genuinely new, still-upcoming tournaments to `js/data.js`, then logs, commits and pushes.
+
+Instagram used to be swept daily by browser scraping, which kept tripping Instagram's anonymous
+rate limit (see the Instagram section above). It now goes through Apify on the slower cadence
+instead, which is both more reliable and gentler on quota. Cron cannot express a true "every 14
+days", so the 1st and 15th is used as the closest predictable equivalent (24 runs a year).
+
+The biweekly task depends on the **Apify MCP server** being connected and authenticated. If it is
+not, the task stops and says so rather than silently falling back to scraping or inventing data.
+
+**Important:** both tasks run locally, inside this Claude Code app, so they only actually fire when
+this app has an active session on this machine (not truly 24/7; if the app was closed when one was
+due, it runs on next launch). Neither is a cloud/GitHub-based automation. You can see and manage
+them in the "Scheduled" section of the app sidebar: pause one, change its time, or click "Run now"
+to trigger it immediately (worth doing once up front for each, so it can pre-approve the tool
 permissions it needs rather than pausing on a prompt during its first automatic run).
 
 ## Time zones and the live countdown
