@@ -3,17 +3,32 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tournament Map | US Badminton Tournament Finder</title>
-<link rel="icon" href="img/shuttle-logo.jpg" />
+<title>Badminton Tournament Map | US Badminton Tournaments by Location</title>
+<meta name="description" content="Interactive map of badminton tournaments and leagues across the United States. See every US badminton tournament you can still register for, plotted by location and color-coded by registration deadline." />
+<meta name="keywords" content="badminton tournament map, badminton tournaments near me, US badminton, USA Badminton, badminton, badminton tournaments by state, badminton competitions map, badminton leagues" />
+<link rel="canonical" href="https://usbadmintontournaments.com/map/" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="US Badminton Tournament Finder" />
+<meta property="og:title" content="Badminton Tournament Map | US Badminton Tournaments by Location" />
+<meta property="og:description" content="Every US badminton tournament and league you can still register for, plotted on an interactive map." />
+<meta property="og:url" content="https://usbadmintontournaments.com/map/" />
+<meta property="og:image" content="https://usbadmintontournaments.com/img/shuttle-logo.jpg" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Badminton Tournament Map" />
+<meta name="twitter:description" content="US badminton tournaments and leagues plotted by location." />
+<meta name="twitter:image" content="https://usbadmintontournaments.com/img/shuttle-logo.jpg" />
+
+<link rel="icon" href="../img/shuttle-logo.jpg" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="../css/style.css?v=2" />
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-inner">
     <div class="logo-badge">
-      <img src="img/shuttle-logo.jpg" alt="Badminton shuttlecock logo" class="logo-img" />
+      <img src="../img/shuttle-logo.jpg" alt="Badminton shuttlecock logo" class="logo-img" />
     </div>
     <div class="site-title">
       <h1>US Badminton Tournament Finder</h1>
@@ -24,8 +39,8 @@
 
 <nav class="tab-bar" aria-label="Page views">
   <div class="tab-bar-inner">
-    <a class="tab-link" href="index.html">📋 List</a>
-    <a class="tab-link active" href="map.html">🗺️ Map</a>
+    <a class="tab-link" href="../tournaments/">🏸 Tournaments</a>
+    <a class="tab-link active" href="../map/">🗺️ Map</a>
   </div>
 </nav>
 
@@ -83,13 +98,13 @@
   <p>
     Map tiles &amp; geocoding by <a href="https://carto.com/" target="_blank" rel="noopener">CARTO</a> /
     <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.
-    Marker positions are approximate (city/venue level). See the <a href="index.html">List view</a> for full details and sorting.
+    Marker positions are approximate (city/venue level). See the <a href="../tournaments/">Tournaments list</a> for full details and sorting.
   </p>
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="js/data.js"></script>
-<script src="js/shared.js"></script>
-<script src="js/map.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/shared.js?v=2"></script>
+<script src="../js/map.js?v=2"></script>
 </body>
 </html>

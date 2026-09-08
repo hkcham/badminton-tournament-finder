@@ -230,6 +230,8 @@ button {
   box-shadow: var(--shadow);
   transition: box-shadow 0.15s ease, transform 0.15s ease;
   position: relative;
+  /* Long venue names, URLs and notes wrap instead of widening the card. */
+  overflow-wrap: break-word;
 }
 .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
 
@@ -240,11 +242,19 @@ button {
   flex-wrap: wrap;
 }
 
+/* Flex items default to min-width:auto, which refuses to shrink below their
+   content's intrinsic width. These overrides let long text actually wrap. */
+.card-top > *,
+.card-title-row > * {
+  min-width: 0;
+}
+
 .card-title-row {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+  min-width: 0;
 }
 
 .card h3 {
@@ -269,15 +279,23 @@ button {
 
 .card.is-league { border-left: 4px solid var(--court-green-dark); }
 
+/* No `white-space: nowrap` here on purpose. Some deadline notes are a full
+   sentence ("Not shown as open for online entry, so check the tournament
+   page"), and forcing those onto one line pushed the pill to ~800px, which
+   overflowed the card, clipped the text, and made the whole page canvas wider
+   than a phone screen (which in turn left a dead gap to the right when zoomed
+   out). Short countdown pills still fit on one line naturally. */
 .deadline-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  max-width: 100%;
   font-size: 0.78rem;
   font-weight: 700;
+  line-height: 1.35;
   padding: 5px 10px;
-  border-radius: 999px;
-  white-space: nowrap;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
 }
 .deadline-pill.urgent { background: var(--urgent-bg); color: var(--urgent); }
 .deadline-pill.soon { background: var(--soon-bg); color: var(--soon); }
@@ -342,6 +360,27 @@ button {
   border: 1px dashed var(--border);
   border-radius: 14px;
 }
+
+.about-section {
+  margin-top: 28px;
+  padding: 20px 22px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+.about-section h2 {
+  margin: 0 0 10px;
+  font-size: 1.02rem;
+  color: var(--ink);
+}
+.about-section p {
+  margin: 0 0 10px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.about-section p:last-child { margin-bottom: 0; }
 
 footer.site-footer {
   text-align: center;

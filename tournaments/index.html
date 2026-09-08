@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>US Badminton Tournaments | Find Badminton Tournaments &amp; Leagues Near You</title>
+<meta name="description" content="Find badminton tournaments and leagues across the United States. Browse USA Badminton sanctioned championships, club opens, and college badminton tournaments sorted by registration deadline, distance, or prize money." />
+<meta name="keywords" content="badminton, badminton tournaments, US badminton, USA Badminton, badminton tournaments near me, badminton competitions, badminton leagues, college badminton, USAB, badminton tournament schedule, badminton registration deadlines, junior badminton tournaments, open badminton tournaments" />
+<link rel="canonical" href="https://usbadmintontournaments.com/tournaments/" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="US Badminton Tournament Finder" />
+<meta property="og:title" content="US Badminton Tournaments | Find Badminton Tournaments &amp; Leagues Near You" />
+<meta property="og:description" content="Every badminton tournament and league in the United States you can still register for, sorted by how soon the deadline closes." />
+<meta property="og:url" content="https://usbadmintontournaments.com/tournaments/" />
+<meta property="og:image" content="https://usbadmintontournaments.com/img/shuttle-logo.jpg" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="US Badminton Tournaments" />
+<meta name="twitter:description" content="Find badminton tournaments and leagues across the United States, sorted by registration deadline." />
+<meta name="twitter:image" content="https://usbadmintontournaments.com/img/shuttle-logo.jpg" />
+
+<link rel="icon" href="../img/shuttle-logo.jpg" />
+<!-- ?v= is a cache buster. Bump it whenever css/js below change so returning
+     visitors pick the new files up immediately instead of after the CDN's
+     cache window. js/data.js is deliberately unversioned: it changes daily and
+     should just follow the normal short cache. -->
+<link rel="stylesheet" href="../css/style.css?v=2" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo-badge">
+      <img src="../img/shuttle-logo.jpg" alt="Badminton shuttlecock logo" class="logo-img" />
+    </div>
+    <div class="site-title">
+      <h1>US Badminton Tournament Finder</h1>
+      <p>Badminton tournaments currently available in the United States.</p>
+    </div>
+  </div>
+</header>
+
+<nav class="tab-bar" aria-label="Page views">
+  <div class="tab-bar-inner">
+    <a class="tab-link active" href="../tournaments/">🏸 Tournaments</a>
+    <a class="tab-link" href="../map/">🗺️ Map</a>
+  </div>
+</nav>
+
+<main>
+  <section class="controls" aria-label="Filters and sorting">
+    <div class="controls-row">
+      <div class="field" style="flex:1 1 220px;">
+        <label for="searchInput">Search</label>
+        <input type="text" id="searchInput" placeholder="Tournament, city, venue…" />
+      </div>
+
+      <div class="field">
+        <label for="stateFilter">State</label>
+        <select id="stateFilter">
+          <option value="">All states</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="typeFilter">Type</label>
+        <select id="typeFilter">
+          <option value="">Tournaments &amp; leagues</option>
+          <option value="tournament">Tournaments only</option>
+          <option value="league">Leagues only</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="sortSelect">Sort by</label>
+        <select id="sortSelect">
+          <option value="deadline">Registration deadline (soonest)</option>
+          <option value="startDate">Start date (soonest)</option>
+          <option value="distance">Distance (nearest)</option>
+          <option value="prize">Prize money (highest)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="controls-row" style="margin-top:14px; border-top:1px dashed var(--border); padding-top:14px;">
+      <div class="field" style="flex:1 1 260px;">
+        <label for="addressInput">Your address (for distance sort)</label>
+        <input type="text" id="addressInput" placeholder="e.g. Austin, TX or a full street address" />
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button class="btn" id="applyAddressBtn" type="button">Set address</button>
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button class="btn secondary" id="useLocationBtn" type="button">Use my location</button>
+      </div>
+      <div class="field" style="flex:1 1 200px;">
+        <label>&nbsp;</label>
+        <div class="status-msg" id="addressStatus"></div>
+      </div>
+    </div>
+
+    <div class="controls-row" style="margin-top:14px; border-top:1px dashed var(--border); padding-top:14px;">
+      <div class="field">
+        <label for="timeZoneSelect">Your time zone (for countdowns)</label>
+        <select id="timeZoneSelect"></select>
+      </div>
+      <div class="field" style="flex:1 1 240px;">
+        <label>&nbsp;</label>
+        <div class="status-msg" id="timeZoneStatus"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="results-meta">
+    <span id="resultsCount"></span>
+    <span id="sortDescription"></span>
+  </div>
+
+  <div id="cardList" class="card-list"></div>
+
+  <section class="about-section" aria-labelledby="aboutHeading">
+    <h2 id="aboutHeading">About this badminton tournament list</h2>
+    <p>
+      This page tracks badminton tournaments and leagues held across the United States that are
+      still open for registration. It covers USA Badminton (USAB) sanctioned events such as Open
+      Local Championships, Open Regional Championships and the U.S. National Championships, plus
+      BWF-sanctioned international events held on US soil, independent club opens, community
+      tournaments, and college badminton club tournaments.
+    </p>
+    <p>
+      Entries are gathered from TournamentSoftware, usabadminton.org, club websites, Facebook event
+      pages, and college club Instagram accounts, then sorted so the soonest registration deadline
+      appears first. You can also sort badminton tournaments near you by distance from any US
+      address, or by prize money for events that offer a cash purse.
+    </p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>
+    Data compiled from <a href="https://www.tournamentsoftware.com/" target="_blank" rel="noopener">TournamentSoftware</a>,
+    <a href="https://usabadminton.org/" target="_blank" rel="noopener">USA Badminton</a>, Facebook, and college club pages.
+    Always confirm dates, deadlines, and entry fees on the official tournament page before registering.
+  </p>
+  <p>Distances are approximate (straight-line), calculated from an address you enter. Nothing is sent to a server; geocoding uses OpenStreetMap Nominatim.</p>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/shared.js?v=2"></script>
+<script src="../js/app.js?v=2"></script>
+</body>
+</html>

@@ -3,106 +3,23 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>US Badminton Tournament Finder</title>
+
+<!-- The real pages live at /tournaments/ and /map/. This root page exists only
+     to send visitors (and search engines) to the tournaments list. -->
+<meta http-equiv="refresh" content="0; url=./tournaments/" />
+<link rel="canonical" href="https://usbadmintontournaments.com/tournaments/" />
+
+<title>US Badminton Tournaments | Find Badminton Tournaments &amp; Leagues Near You</title>
+<meta name="description" content="Find badminton tournaments and leagues across the United States. Browse USA Badminton sanctioned championships, club opens, and college badminton tournaments sorted by registration deadline, distance, or prize money." />
 <link rel="icon" href="img/shuttle-logo.jpg" />
 <link rel="stylesheet" href="css/style.css" />
+<script>window.location.replace("./tournaments/");</script>
 </head>
 <body>
-
-<header class="site-header">
-  <div class="header-inner">
-    <div class="logo-badge">
-      <img src="img/shuttle-logo.jpg" alt="Badminton shuttlecock logo" class="logo-img" />
-    </div>
-    <div class="site-title">
-      <h1>US Badminton Tournament Finder</h1>
-      <p>Badminton tournaments currently available in the United States.</p>
-    </div>
-  </div>
-</header>
-
-<nav class="tab-bar" aria-label="Page views">
-  <div class="tab-bar-inner">
-    <a class="tab-link active" href="index.html">📋 List</a>
-    <a class="tab-link" href="map.html">🗺️ Map</a>
-  </div>
-</nav>
-
-<main>
-  <section class="controls" aria-label="Filters and sorting">
-    <div class="controls-row">
-      <div class="field" style="flex:1 1 220px;">
-        <label for="searchInput">Search</label>
-        <input type="text" id="searchInput" placeholder="Tournament, city, venue…" />
-      </div>
-
-      <div class="field">
-        <label for="stateFilter">State</label>
-        <select id="stateFilter">
-          <option value="">All states</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="typeFilter">Type</label>
-        <select id="typeFilter">
-          <option value="">Tournaments &amp; leagues</option>
-          <option value="tournament">Tournaments only</option>
-          <option value="league">Leagues only</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="sortSelect">Sort by</label>
-        <select id="sortSelect">
-          <option value="deadline">Registration deadline (soonest)</option>
-          <option value="startDate">Start date (soonest)</option>
-          <option value="distance">Distance (nearest)</option>
-          <option value="prize">Prize money (highest)</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="controls-row" style="margin-top:14px; border-top:1px dashed var(--border); padding-top:14px;">
-      <div class="field" style="flex:1 1 260px;">
-        <label for="addressInput">Your address (for distance sort)</label>
-        <input type="text" id="addressInput" placeholder="e.g. Austin, TX or a full street address" />
-      </div>
-      <div class="field">
-        <label>&nbsp;</label>
-        <button class="btn" id="applyAddressBtn" type="button">Set address</button>
-      </div>
-      <div class="field">
-        <label>&nbsp;</label>
-        <button class="btn secondary" id="useLocationBtn" type="button">Use my location</button>
-      </div>
-      <div class="field" style="flex:1 1 200px;">
-        <label>&nbsp;</label>
-        <div class="status-msg" id="addressStatus"></div>
-      </div>
-    </div>
-  </section>
-
-  <div class="results-meta">
-    <span id="resultsCount"></span>
-    <span id="sortDescription"></span>
-  </div>
-
-  <div id="cardList" class="card-list"></div>
-
+<main style="max-width:640px;margin:60px auto;padding:0 20px;text-align:center;">
+  <h1>US Badminton Tournament Finder</h1>
+  <p>Redirecting to the <a href="./tournaments/">badminton tournaments list</a>&hellip;</p>
+  <p><a href="./map/">View the tournament map instead</a></p>
 </main>
-
-<footer class="site-footer">
-  <p>
-    Data compiled from <a href="https://www.tournamentsoftware.com/" target="_blank" rel="noopener">TournamentSoftware</a>,
-    <a href="https://usabadminton.org/" target="_blank" rel="noopener">USA Badminton</a>, Facebook, and college club pages.
-    Always confirm dates, deadlines, and entry fees on the official tournament page before registering.
-  </p>
-  <p>Distances are approximate (straight-line), calculated from an address you enter. Nothing is sent to a server; geocoding uses OpenStreetMap Nominatim.</p>
-</footer>
-
-<script src="js/data.js"></script>
-<script src="js/shared.js"></script>
-<script src="js/app.js"></script>
 </body>
 </html>

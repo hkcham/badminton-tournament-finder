@@ -5,10 +5,10 @@
 
 A static website with two views of badminton **tournaments and leagues** held in the United States:
 
-- **List** ([index.html](index.html)), which can be sorted by how soon registration closes
+- **Tournaments** ([tournaments/index.html](tournaments/index.html), served at `/tournaments`), which can be sorted by how soon registration closes
   (soonest first by default), by distance from an address, or by prize money, and includes
   search/filter tools (including a Tournaments-only / Leagues-only filter).
-- **Map** ([map.html](map.html)), which plots everything currently registerable on an interactive
+- **Map** ([map/index.html](map/index.html), served at `/map`), which plots everything currently registerable on an interactive
   map of the US, color-coded by how soon its deadline is, with a synced sidebar list.
 
 Leagues are shown alongside tournaments everywhere (a dark-green "League" badge on cards and
@@ -25,9 +25,10 @@ uses [Leaflet](https://leafletjs.com/) (loaded from a CDN) with standard OpenStr
 
 ## Running it
 
-Just double-click **`index.html`**; it opens in your browser and works immediately. Switch to the
-Map tab from there, or open `map.html` directly. Both need an internet connection (for map tiles
-and address geocoding) even though there's no backend of your own.
+Just double-click **`tournaments/index.html`**; it opens in your browser and works immediately.
+Switch to the Map tab from there, or open `map/index.html` directly. (The `index.html` in the
+project root is only a redirect to `/tournaments/`.) Both pages need an internet connection (for
+map tiles and address geocoding) even though there's no backend of your own.
 
 It's already published via **GitHub Pages** at the live-site link above. That repo is what the
 daily scheduled task (see "Keeping this site current" below) pushes its updates to, so the live
@@ -40,15 +41,24 @@ there's no backend to migrate.
 ## How it's organized
 
 ```
-index.html      list view: page structure
-map.html        map view: page structure + Leaflet map container + legend
+index.html             root redirect to /tournaments/ (not a real page)
+tournaments/index.html tournaments list view, served at /tournaments
+map/index.html         map view, served at /map
+robots.txt             search-engine directives, points at the sitemap
+sitemap.xml            lists /tournaments/ and /map/ for search engines
 css/style.css   the green-and-white badminton-court theme, shared by both pages
 img/shuttle-logo.jpg   the site logo/favicon, shown in the header on both pages
 js/data.js      <-- THE TOURNAMENT DATABASE (a plain JS array; the only place entries are added or updated)
-js/shared.js    logic shared by both pages: loading data, date math, formatting, geocoding
-js/app.js       list-view-only logic: search/sort/filter controls, rendering cards
+js/shared.js    logic shared by both pages: loading data, time-zone-aware date math, formatting, geocoding
+js/app.js       list-view-only logic: search/sort/filter controls, rendering cards, the live countdown ticker
 js/map.js       map-view-only logic: Leaflet markers/popups, the sidebar list, map filters
 ```
+
+The `css`/`js` includes carry a `?v=N` cache-busting query. If you edit
+`css/style.css`, `js/shared.js`, `js/app.js` or `js/map.js`, bump that number in
+`tournaments/index.html` and `map/index.html` so returning visitors get the new file right away.
+`js/data.js` is deliberately left unversioned, since it changes daily and the normal short cache
+window is the right behaviour for it.
 
 Both pages read the same `js/data.js` through `js/shared.js`, so they always show the same
 tournaments/leagues, since there's nothing browser-specific or per-visitor about the data.
@@ -238,6 +248,33 @@ due, it runs on next launch). It is not a cloud/GitHub-based automation. You can
 in the "Scheduled" section of the app sidebar: pause it, change its time, or click "Run now" to
 trigger a check immediately (worth doing once up front, so it can pre-approve the browser/tool
 permissions it needs rather than pausing on a prompt during its first automatic run).
+
+## Time zones and the live countdown
+
+Deadlines in `js/data.js` are stored as wall-clock times exactly as the organizer published them,
+with no zone offset: `"2026-09-20T23:59:00"` means 11:59 PM *where the tournament is held*. The
+venue's zone is derived from its `state` (see `STATE_TIME_ZONES` in `js/shared.js`), or from an
+optional `timeZone` field on the entry if a state spans zones and the default is wrong.
+
+Two things follow from that:
+
+- **The deadline is displayed in the venue's own clock**, e.g. "Sep 20, 11:59 PM EDT", which is
+  what the organizer's flyer says.
+- **"Days left" counts calendar days**, from the viewer's today to the deadline's own printed date.
+  This is why two deadlines on the same date always show the same number now. The earlier version
+  did `Math.ceil()` on raw elapsed milliseconds, so a 10:00 AM deadline and an 11:59 PM deadline on
+  the same day could report "0 days" and "1 day".
+
+The viewer's zone is auto-detected with `Intl.DateTimeFormat().resolvedOptions().timeZone`, mapped
+onto one of seven US zones (other US-equivalent IANA ids like `America/Detroit` are aliased in;
+anything non-US falls back to Eastern). A dropdown on the tournaments page lets a visitor override
+it, and the choice is remembered in `localStorage`.
+
+A one-second ticker updates each countdown in place, so time remaining stays accurate without a
+page refresh. It only rewrites the countdown text and the urgency colour, so scroll position,
+filters and sort order are untouched. Inside 48 hours the countdown switches to a live
+hours/minutes (then seconds) readout; if a deadline actually lapses while the page is open, the
+list re-renders and that entry drops off, since it's no longer registerable.
 
 ## How sorting/filtering works
 

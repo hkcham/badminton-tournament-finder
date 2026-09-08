@@ -1,11 +1,24 @@
 /**
- * Shared logic between index.html (list view) and map.html (map view):
- * loading tournament data, date math, formatting, and geocoding. Exposed as
- * the global `Shared` object so both pages' scripts can use it without a
- * build step / module bundler.
+ * Shared logic between the tournaments list view and the map view: loading
+ * tournament data, time-zone-aware date math, formatting, and geocoding.
+ * Exposed as the global `Shared` object so both pages' scripts can use it
+ * without a build step / module bundler.
  *
  * This site is a read-only display of tournaments/leagues found online. There
  * is no in-browser "add" feature; js/data.js is the only source of entries.
+ *
+ * TIME ZONES
+ * ----------
+ * Deadlines in js/data.js are wall-clock times as the organizer published them
+ * ("2026-09-20T23:59:00" means 11:59 PM where the tournament is held). To turn
+ * that into a real instant we need the venue's zone, which is derived from its
+ * state (or an explicit `timeZone` field on the entry).
+ *
+ * "Days left" is then counted in CALENDAR days in the *viewer's* zone, not in
+ * elapsed milliseconds. That matters: two deadlines on the same date, one at
+ * 10:00 AM and one at 11:59 PM, used to report "0 days" and "1 day" because
+ * the old code did Math.ceil() on raw elapsed time. Counting calendar days
+ * makes both say the same thing, which is what a reader expects.
  */
 
 const Shared = (function () {
@@ -13,6 +26,198 @@ const Shared = (function () {
 
   const ADDR_KEY = "badmintonFinder.address.v1";
   const GEOCODE_CACHE_KEY = "badmintonFinder.geocodeCache.v1";
+  const TZ_KEY = "badmintonFinder.timeZone.v1";
+
+  // ---------- US time zones ----------
+
+  /** The zones this site offers. US only, per the site's scope. */
+  const US_TIME_ZONES = [
+    { id: "America/New_York", label: "Eastern time" },
+    { id: "America/Chicago", label: "Central time" },
+    { id: "America/Denver", label: "Mountain time" },
+    { id: "America/Phoenix", label: "Arizona (no DST)" },
+    { id: "America/Los_Angeles", label: "Pacific time" },
+    { id: "America/Anchorage", label: "Alaska time" },
+    { id: "Pacific/Honolulu", label: "Hawaii time" },
+  ];
+
+  /** Other IANA ids a US browser may report, mapped onto the list above. */
+  const ZONE_ALIASES = {
+    "America/Detroit": "America/New_York",
+    "America/Indiana/Indianapolis": "America/New_York",
+    "America/Indiana/Vincennes": "America/New_York",
+    "America/Indiana/Winamac": "America/New_York",
+    "America/Indiana/Marengo": "America/New_York",
+    "America/Indiana/Vevay": "America/New_York",
+    "America/Kentucky/Louisville": "America/New_York",
+    "America/Kentucky/Monticello": "America/New_York",
+    "America/Toronto": "America/New_York",
+    "America/Indiana/Knox": "America/Chicago",
+    "America/Indiana/Tell_City": "America/Chicago",
+    "America/Menominee": "America/Chicago",
+    "America/North_Dakota/Center": "America/Chicago",
+    "America/North_Dakota/New_Salem": "America/Chicago",
+    "America/North_Dakota/Beulah": "America/Chicago",
+    "America/Winnipeg": "America/Chicago",
+    "America/Boise": "America/Denver",
+    "America/Edmonton": "America/Denver",
+    "America/Juneau": "America/Anchorage",
+    "America/Sitka": "America/Anchorage",
+    "America/Nome": "America/Anchorage",
+    "America/Yakutat": "America/Anchorage",
+    "America/Metlakatla": "America/Anchorage",
+    "America/Adak": "Pacific/Honolulu",
+    "America/Vancouver": "America/Los_Angeles",
+    "US/Eastern": "America/New_York",
+    "US/Central": "America/Chicago",
+    "US/Mountain": "America/Denver",
+    "US/Pacific": "America/Los_Angeles",
+    "US/Arizona": "America/Phoenix",
+    "US/Alaska": "America/Anchorage",
+    "US/Hawaii": "Pacific/Honolulu",
+  };
+
+  /** Venue zone lookup by state. Split states use their dominant zone. */
+  const STATE_TIME_ZONES = {
+    AL: "America/Chicago", AK: "America/Anchorage", AZ: "America/Phoenix",
+    AR: "America/Chicago", CA: "America/Los_Angeles", CO: "America/Denver",
+    CT: "America/New_York", DE: "America/New_York", DC: "America/New_York",
+    FL: "America/New_York", GA: "America/New_York", HI: "Pacific/Honolulu",
+    ID: "America/Boise", IL: "America/Chicago", IN: "America/New_York",
+    IA: "America/Chicago", KS: "America/Chicago", KY: "America/New_York",
+    LA: "America/Chicago", ME: "America/New_York", MD: "America/New_York",
+    MA: "America/New_York", MI: "America/New_York", MN: "America/Chicago",
+    MS: "America/Chicago", MO: "America/Chicago", MT: "America/Denver",
+    NE: "America/Chicago", NV: "America/Los_Angeles", NH: "America/New_York",
+    NJ: "America/New_York", NM: "America/Denver", NY: "America/New_York",
+    NC: "America/New_York", ND: "America/Chicago", OH: "America/New_York",
+    OK: "America/Chicago", OR: "America/Los_Angeles", PA: "America/New_York",
+    RI: "America/New_York", SC: "America/New_York", SD: "America/Chicago",
+    TN: "America/Chicago", TX: "America/Chicago", UT: "America/Denver",
+    VT: "America/New_York", VA: "America/New_York", WA: "America/Los_Angeles",
+    WV: "America/New_York", WI: "America/Chicago", WY: "America/Denver",
+  };
+
+  const DEFAULT_ZONE = "America/New_York";
+
+  /** The zone a tournament's published deadline time is stated in. */
+  function venueTimeZone(t) {
+    return t.timeZone || STATE_TIME_ZONES[(t.state || "").toUpperCase()] || DEFAULT_ZONE;
+  }
+
+  function isSupportedZone(id) {
+    return US_TIME_ZONES.some((z) => z.id === id);
+  }
+
+  /** The viewer's zone: saved choice, else auto-detected, else Eastern. */
+  function getUserTimeZone() {
+    try {
+      const saved = localStorage.getItem(TZ_KEY);
+      if (saved && isSupportedZone(saved)) return saved;
+    } catch {}
+    return detectUserTimeZone();
+  }
+
+  function detectUserTimeZone() {
+    let detected;
+    try {
+      detected = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    } catch {
+      return DEFAULT_ZONE;
+    }
+    if (isSupportedZone(detected)) return detected;
+    if (ZONE_ALIASES[detected]) return ZONE_ALIASES[detected];
+    return DEFAULT_ZONE;
+  }
+
+  function setUserTimeZone(id) {
+    if (!isSupportedZone(id)) return;
+    try { localStorage.setItem(TZ_KEY, id); } catch {}
+  }
+
+  function timeZoneLabel(id) {
+    const z = US_TIME_ZONES.find((x) => x.id === id);
+    return z ? z.label : id;
+  }
+
+  /** Short zone name for an instant, e.g. "EDT" / "PST". */
+  function zoneAbbrev(date, timeZone) {
+    try {
+      const parts = new Intl.DateTimeFormat("en-US", { timeZone, timeZoneName: "short" })
+        .formatToParts(date);
+      const p = parts.find((x) => x.type === "timeZoneName");
+      return p ? p.value : "";
+    } catch {
+      return "";
+    }
+  }
+
+  // ---------- Time zone math ----------
+
+  /** The Y/M/D H:M:S an instant reads as, in a given zone. */
+  function getZonedParts(date, timeZone) {
+    const fmt = new Intl.DateTimeFormat("en-US", {
+      timeZone,
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", second: "2-digit",
+      hour12: false,
+    });
+    const out = {};
+    for (const p of fmt.formatToParts(date)) {
+      if (p.type !== "literal") out[p.type] = Number(p.value);
+    }
+    if (out.hour === 24) out.hour = 0; // some engines report midnight as 24
+    return out;
+  }
+
+  /**
+   * Turn a wall-clock string ("2026-09-20T23:59:00") in a given zone into the
+   * real instant it refers to. Two correction passes settle DST boundaries.
+   */
+  function zonedWallClockToInstant(wallClock, timeZone) {
+    if (!wallClock) return null;
+    const [datePart, timePart = "00:00:00"] = String(wallClock).split("T");
+    const [y, mo, d] = datePart.split("-").map(Number);
+    const [h = 0, mi = 0, s = 0] = timePart.split(":").map(Number);
+    const targetUTC = Date.UTC(y, mo - 1, d, h, mi, s);
+
+    let guess = targetUTC;
+    for (let i = 0; i < 2; i++) {
+      const seen = getZonedParts(new Date(guess), timeZone);
+      const seenUTC = Date.UTC(seen.year, seen.month - 1, seen.day, seen.hour, seen.minute, seen.second);
+      const drift = targetUTC - seenUTC;
+      if (drift === 0) break;
+      guess += drift;
+    }
+    return new Date(guess);
+  }
+
+  /** Whole calendar days from one instant to another, counted in `timeZone`. */
+  function calendarDaysBetween(fromInstant, toInstant, timeZone) {
+    return calendarDaysAcrossZones(fromInstant, timeZone, toInstant, timeZone);
+  }
+
+  /**
+   * Days between "today where the viewer is" and "the deadline's date where
+   * the tournament is". Using the venue's zone for the deadline side keeps the
+   * number consistent with the date printed beside it: a California deadline
+   * shown as "Sep 13, 11:59 PM PDT" counts to Sep 13, even for a viewer in a
+   * later zone for whom that instant technically lands on Sep 14.
+   */
+  function calendarDaysAcrossZones(fromInstant, fromZone, toInstant, toZone) {
+    const a = getZonedParts(fromInstant, fromZone);
+    const b = getZonedParts(toInstant, toZone);
+    const aMid = Date.UTC(a.year, a.month - 1, a.day);
+    const bMid = Date.UTC(b.year, b.month - 1, b.day);
+    return Math.round((bMid - aMid) / 86400000);
+  }
+
+  /** "2026-09-20" as a UTC-midnight Date, so display never drifts a day. */
+  function parseCalendarDate(str) {
+    if (!str) return null;
+    const [y, m, d] = String(str).split("-").map(Number);
+    return new Date(Date.UTC(y, m - 1, d));
+  }
 
   // ---------- Data loading ----------
 
@@ -29,22 +234,46 @@ const Shared = (function () {
 
   // ---------- Enrichment / filtering / sorting ----------
 
-  /** Adds derived Date objects and status flags to a raw tournament record. */
-  function enrich(t, now, userCoords) {
-    const start = t.startDate ? new Date(t.startDate + "T00:00:00") : null;
-    const end = t.endDate ? new Date(t.endDate + "T23:59:59") : start;
-    const deadline = t.registrationDeadline ? new Date(t.registrationDeadline) : null;
+  /**
+   * Adds derived dates and status flags to a raw record.
+   * `now` is the current instant; `userZone` is the viewer's zone (defaults to
+   * their detected one) and only affects how "days left" is counted.
+   */
+  function enrich(t, now, userCoords, userZone) {
+    const zone = userZone || getUserTimeZone();
+    const venueZone = venueTimeZone(t);
 
-    const isPast = end ? end.getTime() < now.getTime() : false;
+    // Display dates: plain calendar dates, never shifted by a zone conversion.
+    const start = parseCalendarDate(t.startDate);
+    const end = t.endDate ? parseCalendarDate(t.endDate) : start;
+
+    // Comparison instants: anchored to the venue's local clock.
+    const endInstant = t.endDate
+      ? zonedWallClockToInstant(t.endDate + "T23:59:59", venueZone)
+      : (t.startDate ? zonedWallClockToInstant(t.startDate + "T23:59:59", venueZone) : null);
+    const deadline = t.registrationDeadline
+      ? zonedWallClockToInstant(t.registrationDeadline, venueZone)
+      : null;
+
+    const isPast = endInstant ? endInstant.getTime() < now.getTime() : false;
     const deadlinePassed = deadline ? deadline.getTime() < now.getTime() : false;
-    const daysUntilDeadline = deadline ? Math.ceil((deadline - now) / 86400000) : null;
+
+    // Calendar days: viewer's "today" to the deadline's own printed date, so
+    // same-date deadlines always agree and the count matches the date shown.
+    const daysUntilDeadline = deadline
+      ? calendarDaysAcrossZones(now, zone, deadline, venueZone)
+      : null;
+    const msUntilDeadline = deadline ? deadline.getTime() - now.getTime() : null;
 
     let distanceMiles = null;
     if (userCoords && typeof t.lat === "number" && typeof t.lng === "number") {
       distanceMiles = haversineMiles(userCoords.lat, userCoords.lng, t.lat, t.lng);
     }
 
-    return { ...t, start, end, deadline, isPast, deadlinePassed, daysUntilDeadline, distanceMiles };
+    return {
+      ...t, start, end, endInstant, deadline, venueZone,
+      isPast, deadlinePassed, daysUntilDeadline, msUntilDeadline, distanceMiles,
+    };
   }
 
   /** Only tournaments that can still plausibly be registered for. */
@@ -103,6 +332,40 @@ const Shared = (function () {
     return "ok";
   }
 
+  /**
+   * The countdown text for a deadline. Inside 48 hours it ticks down in
+   * hours/minutes (and seconds inside the last hour) so the page feels live;
+   * beyond that, whole calendar days read better than a running clock.
+   */
+  function countdownLabel(msRemaining, calendarDays) {
+    if (msRemaining <= 0) return "Closing now";
+
+    if (msRemaining < 48 * 3600000) {
+      const totalSeconds = Math.floor(msRemaining / 1000);
+      const h = Math.floor(totalSeconds / 3600);
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+      if (h >= 1) return `Closes in ${h}h ${String(m).padStart(2, "0")}m`;
+      if (m >= 1) return `Closes in ${m}m ${String(s).padStart(2, "0")}s`;
+      return `Closes in ${s}s`;
+    }
+    if (calendarDays === 0) return "Closes today";
+    if (calendarDays === 1) return "Closes tomorrow";
+    return `${calendarDays} days left`;
+  }
+
+  /** Deadline shown in the venue's own clock, e.g. "Sep 20, 11:59 PM EDT". */
+  function formatDeadlineInVenueZone(t) {
+    if (!t.deadline) return "";
+    const datePart = t.deadline.toLocaleDateString("en-US", {
+      timeZone: t.venueZone, month: "short", day: "numeric",
+    });
+    const timePart = t.deadline.toLocaleTimeString("en-US", {
+      timeZone: t.venueZone, hour: "numeric", minute: "2-digit",
+    });
+    return `${datePart}, ${timePart} ${zoneAbbrev(t.deadline, t.venueZone)}`.trim();
+  }
+
   function renderDeadlinePill(t) {
     const status = urgencyStatus(t);
     if (status === "past") {
@@ -111,25 +374,38 @@ const Shared = (function () {
     if (status === "tbd") {
       return `<span class="deadline-pill tbd">Deadline: ${t.deadlineNote ? escapeHtml(t.deadlineNote) : "TBD"}</span>`;
     }
-    const d = t.daysUntilDeadline;
-    const label = d === 0 ? "Closes today!" : d === 1 ? "1 day left" : `${d} days left`;
-    return `<span class="deadline-pill ${status}">${label} · ${formatDate(t.deadline)}</span>`;
+    const label = countdownLabel(t.msUntilDeadline, t.daysUntilDeadline);
+    const when = formatDeadlineInVenueZone(t);
+    const note = t.deadlineNote ? ` (${t.deadlineNote})` : "";
+    // data-deadline lets the live ticker refresh this pill in place, with no
+    // re-render, re-sort or scroll jump.
+    return (
+      `<span class="deadline-pill ${status}" data-deadline="${t.deadline.toISOString()}"` +
+      ` data-venue-zone="${escapeAttr(t.venueZone)}"` +
+      ` data-deadline-id="${escapeAttr(t.id)}"` +
+      ` title="Closes ${escapeAttr(when)}${escapeAttr(note)}">` +
+      `<span class="deadline-countdown">${label}</span> · ${escapeHtml(when)}</span>`
+    );
   }
 
   // ---------- Formatting ----------
 
+  /** Calendar dates are stored UTC-midnight, so format them in UTC too. */
   function formatDate(d) {
     if (!d) return "";
-    return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    return d.toLocaleDateString("en-US", {
+      timeZone: "UTC", month: "short", day: "numeric", year: "numeric",
+    });
   }
 
   function formatDateRange(start, end) {
     if (!start) return "Dates TBD";
-    if (!end || start.toDateString() === end.toDateString()) return formatDate(start);
-    const sameMonth = start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear();
+    if (!end || start.getTime() === end.getTime()) return formatDate(start);
+    const sameMonth =
+      start.getUTCMonth() === end.getUTCMonth() && start.getUTCFullYear() === end.getUTCFullYear();
     if (sameMonth) {
-      const month = start.toLocaleDateString("en-US", { month: "short" });
-      return `${month} ${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`;
+      const month = start.toLocaleDateString("en-US", { timeZone: "UTC", month: "short" });
+      return `${month} ${start.getUTCDate()}–${end.getUTCDate()}, ${start.getUTCFullYear()}`;
     }
     return `${formatDate(start)} – ${formatDate(end)}`;
   }
@@ -200,12 +476,23 @@ const Shared = (function () {
     if (states.includes(current)) selectEl.value = current;
   }
 
+  function populateTimeZoneSelect(selectEl, selectedId) {
+    selectEl.innerHTML = US_TIME_ZONES
+      .map((z) => `<option value="${z.id}">${z.label}</option>`)
+      .join("");
+    selectEl.value = selectedId || getUserTimeZone();
+  }
+
   return {
-    ADDR_KEY, GEOCODE_CACHE_KEY,
+    ADDR_KEY, GEOCODE_CACHE_KEY, TZ_KEY, US_TIME_ZONES,
     getAllTournaments,
     loadStoredAddress, storeAddress,
-    enrich, isRegisterable, isLeague, compareNullableDates, sortList, urgencyStatus, renderDeadlinePill,
+    venueTimeZone, getUserTimeZone, setUserTimeZone, detectUserTimeZone,
+    timeZoneLabel, zoneAbbrev, getZonedParts, zonedWallClockToInstant,
+    calendarDaysBetween, calendarDaysAcrossZones, parseCalendarDate,
+    enrich, isRegisterable, isLeague, compareNullableDates, sortList,
+    urgencyStatus, renderDeadlinePill, countdownLabel, formatDeadlineInVenueZone,
     formatDate, formatDateRange, escapeHtml, escapeAttr, haversineMiles,
-    geocode, debounce, populateStateFilter,
+    geocode, debounce, populateStateFilter, populateTimeZoneSelect,
   };
 })();

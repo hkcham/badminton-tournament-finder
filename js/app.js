@@ -28,19 +28,44 @@
   const useLocationBtn = document.getElementById("useLocationBtn");
   const addressStatus = document.getElementById("addressStatus");
 
+  const timeZoneSelect = document.getElementById("timeZoneSelect");
+  const timeZoneStatus = document.getElementById("timeZoneStatus");
+
+  /** The zone all "days left" counts are measured in. */
+  let userZone = S.getUserTimeZone();
+
   // ---------- Init ----------
   if (userCoords) {
     addressInput.value = userCoords.label;
     setAddressStatus(`Using: ${userCoords.label}`, false);
   }
   S.populateStateFilter(stateFilter);
+  S.populateTimeZoneSelect(timeZoneSelect, userZone);
+  showTimeZoneStatus();
   render();
+  startCountdownTicker();
+  injectStructuredData();
 
   // ---------- Event wiring ----------
   searchInput.addEventListener("input", S.debounce(render, 150));
   stateFilter.addEventListener("change", render);
   typeFilter.addEventListener("change", render);
   sortSelect.addEventListener("change", render);
+
+  timeZoneSelect.addEventListener("change", () => {
+    userZone = timeZoneSelect.value;
+    S.setUserTimeZone(userZone);
+    showTimeZoneStatus();
+    render();
+  });
+
+  function showTimeZoneStatus() {
+    const detected = S.detectUserTimeZone();
+    timeZoneStatus.textContent =
+      userZone === detected
+        ? `Detected automatically. Countdowns update live.`
+        : `Set manually (detected ${S.timeZoneLabel(detected)}).`;
+  }
 
   applyAddressBtn.addEventListener("click", async () => {
     const query = addressInput.value.trim();
@@ -95,7 +120,7 @@
     const typeVal = typeFilter.value;
     const sortMode = sortSelect.value;
 
-    let list = all.map((t) => S.enrich(t, now, userCoords));
+    let list = all.map((t) => S.enrich(t, now, userCoords, userZone));
 
     // Only ever show tournaments that can still plausibly be registered for.
     list = list.filter(S.isRegisterable);
@@ -197,5 +222,116 @@
   function setAddressStatus(msg, isError) {
     addressStatus.textContent = msg;
     addressStatus.classList.toggle("error", !!isError);
+  }
+
+  // ---------- Live countdown ----------
+
+  /**
+   * Updates each deadline pill in place once a second, so the time remaining
+   * stays accurate without the visitor reloading. Only the countdown text is
+   * touched, so scroll position, filters and sort order are left alone. If a
+   * deadline actually lapses while the page is open, that entry is no longer
+   * registerable, so the list is re-rendered to drop it.
+   */
+  function startCountdownTicker() {
+    setInterval(() => {
+      const now = new Date();
+      let somethingLapsed = false;
+
+      document.querySelectorAll("[data-deadline]").forEach((pill) => {
+        const deadline = new Date(pill.getAttribute("data-deadline"));
+        const msRemaining = deadline.getTime() - now.getTime();
+
+        if (msRemaining <= 0) {
+          somethingLapsed = true;
+          return;
+        }
+
+        const venueZone = pill.getAttribute("data-venue-zone") || userZone;
+        const calendarDays = S.calendarDaysAcrossZones(now, userZone, deadline, venueZone);
+        const target = pill.querySelector(".deadline-countdown");
+        if (!target) return;
+
+        const label = S.countdownLabel(msRemaining, calendarDays);
+        if (target.textContent !== label) target.textContent = label;
+
+        // Keep the colour band honest as a deadline gets closer.
+        const status = calendarDays <= 3 ? "urgent" : calendarDays <= 14 ? "soon" : "ok";
+        if (!pill.classList.contains(status)) {
+          pill.classList.remove("urgent", "soon", "ok");
+          pill.classList.add(status);
+        }
+      });
+
+      if (somethingLapsed) render();
+    }, 1000);
+  }
+
+  // ---------- SEO: structured data ----------
+
+  /**
+   * Publishes the visible tournaments as schema.org SportsEvent entries so
+   * search engines can read them as real events rather than plain text.
+   */
+  function injectStructuredData() {
+    const now = new Date();
+    const events = S.getAllTournaments()
+      .map((t) => S.enrich(t, now, null, userZone))
+      .filter(S.isRegisterable)
+      .filter((t) => t.startDate)
+      .slice(0, 50)
+      .map((t, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "SportsEvent",
+          name: t.name,
+          sport: "Badminton",
+          startDate: t.startDate,
+          endDate: t.endDate || t.startDate,
+          eventStatus: "https://schema.org/EventScheduled",
+          eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+          url: t.sourceUrl || undefined,
+          description: t.description || undefined,
+          location: {
+            "@type": "Place",
+            name: t.venue || t.city,
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: t.address || undefined,
+              addressLocality: t.city || undefined,
+              addressRegion: t.state || undefined,
+              addressCountry: "US",
+            },
+            geo:
+              typeof t.lat === "number"
+                ? { "@type": "GeoCoordinates", latitude: t.lat, longitude: t.lng }
+                : undefined,
+          },
+        },
+      }));
+
+    const payload = [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "US Badminton Tournament Finder",
+        url: "https://usbadmintontournaments.com/",
+        description:
+          "Find badminton tournaments and leagues across the United States, sorted by registration deadline, distance, or prize money.",
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "Badminton tournaments in the United States open for registration",
+        numberOfItems: events.length,
+        itemListElement: events,
+      },
+    ];
+
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify(payload);
+    document.head.appendChild(script);
   }
 })();
