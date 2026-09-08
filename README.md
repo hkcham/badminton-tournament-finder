@@ -1,5 +1,8 @@
 # US Badminton Tournament Finder
 
+**Live site:** https://hkcham.github.io/badminton-tournament-finder/
+(source: [hkcham/badminton-tournament-finder](https://github.com/hkcham/badminton-tournament-finder))
+
 A static website with two views of badminton **tournaments and leagues** held in the United States:
 
 - **List** ([index.html](index.html)), which can be sorted by how soon registration closes
@@ -26,9 +29,13 @@ Just double-click **`index.html`**; it opens in your browser and works immediate
 Map tab from there, or open `map.html` directly. Both need an internet connection (for map tiles
 and address geocoding) even though there's no backend of your own.
 
-To publish it for free on the web (recommended once you're happy with it):
-- **GitHub Pages**: create a repo, push these files, enable Pages in repo Settings → Pages, pointed at the root of the `main` branch.
-- Any static host works too (Netlify, Vercel, Cloudflare Pages) since there's no backend.
+It's already published via **GitHub Pages** at the live-site link above. That repo is what the
+daily scheduled task (see "Keeping this site current" below) pushes its updates to, so the live
+site refreshes automatically each day. To change the source of truth, clone that repo, edit files,
+and `git push`; GitHub Pages rebuilds within a minute or two of any push to `main`.
+
+Any other static host works too (Netlify, Vercel, Cloudflare Pages) if you'd rather move it, since
+there's no backend to migrate.
 
 ## How it's organized
 
@@ -36,6 +43,7 @@ To publish it for free on the web (recommended once you're happy with it):
 index.html      list view: page structure
 map.html        map view: page structure + Leaflet map container + legend
 css/style.css   the green-and-white badminton-court theme, shared by both pages
+img/shuttle-logo.jpg   the site logo/favicon, shown in the header on both pages
 js/data.js      <-- THE TOURNAMENT DATABASE (a plain JS array; the only place entries are added or updated)
 js/shared.js    logic shared by both pages: loading data, date math, formatting, geocoding
 js/app.js       list-view-only logic: search/sort/filter controls, rendering cards
