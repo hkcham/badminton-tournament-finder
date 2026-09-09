@@ -313,6 +313,14 @@ button {
 }
 
 .card-meta .meta-item { display: flex; align-items: center; gap: 5px; }
+/* Entry counts come from TournamentSoftware, so they carry a tooltip with the
+   as-of date. The dotted underline hints that there is something to hover. */
+.card-meta .entries-meta {
+  color: var(--court-green-dark);
+  font-weight: 600;
+  cursor: help;
+  border-bottom: 1px dotted var(--border);
+}
 
 .card-desc {
   margin: 10px 0 0;
@@ -360,6 +368,30 @@ button {
   border: 1px dashed var(--border);
   border-radius: 14px;
 }
+
+/* Intro block at the top of the list: says why the site exists. Styled a shade
+   greener than the closing About block so it reads as a lead-in, not a repeat. */
+.intro-section {
+  margin: 0 0 18px;
+  padding: 18px 22px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--court-green);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+.intro-section h2 {
+  margin: 0 0 10px;
+  font-size: 1.06rem;
+  color: var(--court-green-dark);
+}
+.intro-section p {
+  margin: 0 0 10px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.intro-section p:last-child { margin-bottom: 0; }
 
 .about-section {
   margin-top: 28px;

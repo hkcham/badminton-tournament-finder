@@ -25,7 +25,7 @@
      visitors pick the new files up immediately instead of after the CDN's
      cache window. js/data.js is deliberately unversioned: it changes daily and
      should just follow the normal short cache. -->
-<link rel="stylesheet" href="../css/style.css?v=4" />
+<link rel="stylesheet" href="../css/style.css?v=5" />
 </head>
 <body>
 
@@ -49,6 +49,23 @@
 </nav>
 
 <main>
+  <section class="intro-section" aria-labelledby="introHeading">
+    <h2 id="introHeading">Why this site exists</h2>
+    <p>
+      Finding a badminton tournament in the United States usually means checking TournamentSoftware,
+      then a few club Facebook pages, then a college club's Instagram, and then piecing the dates
+      together yourself. This site does that legwork in one place. Every tournament and league you
+      can still sign up for sits in one list, sorted so the deadline closing soonest is at the top.
+    </p>
+    <p>
+      It also makes room for the events that never reach TournamentSoftware. A lot of good
+      tournaments get announced in nothing but a Facebook post or a college club's Instagram, so
+      unless you already follow that club, you never hear about them. Those events are tracked here
+      next to the sanctioned ones, with a link back to the original post so you can confirm the
+      details for yourself.
+    </p>
+  </section>
+
   <section class="controls" aria-label="Filters and sorting">
     <div class="controls-row">
       <div class="field" style="flex:1 1 220px;">
@@ -79,6 +96,7 @@
           <option value="startDate">Start date (soonest)</option>
           <option value="distance">Distance (nearest)</option>
           <option value="prize">Prize money (highest)</option>
+          <option value="entries">Number of entries (most)</option>
         </select>
       </div>
     </div>
@@ -131,10 +149,12 @@
       tournaments, and college badminton club tournaments.
     </p>
     <p>
-      Entries are gathered from TournamentSoftware, usabadminton.org, club websites, Facebook event
+      Listings are gathered from TournamentSoftware, usabadminton.org, club websites, Facebook event
       pages, and college club Instagram accounts, then sorted so the soonest registration deadline
       appears first. You can also sort badminton tournaments near you by distance from any US
-      address, or by prize money for events that offer a cash purse.
+      address, by prize money for events that offer a cash purse, or by how many players have
+      entered so far. Entry counts come from TournamentSoftware and are refreshed daily, so treat
+      them as a good indication of turnout rather than a live figure.
     </p>
   </section>
 
@@ -150,7 +170,7 @@
 </footer>
 
 <script src="../js/data.js"></script>
-<script src="../js/shared.js?v=4"></script>
-<script src="../js/app.js?v=4"></script>
+<script src="../js/shared.js?v=5"></script>
+<script src="../js/app.js?v=5"></script>
 </body>
 </html>

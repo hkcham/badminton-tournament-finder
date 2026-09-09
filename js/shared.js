@@ -327,6 +327,18 @@ const Shared = (function () {
         if (pb == null) return -1;
         return pb - pa;
       });
+    } else if (mode === "entries") {
+      // Entry counts only exist for TournamentSoftware events we can read
+      // publicly. Anything without a count sinks to the bottom and keeps its
+      // deadline order there, rather than pretending to be a zero-entry event.
+      arr.sort((a, b) => {
+        const ea = typeof a.entries === "number" ? a.entries : null;
+        const eb = typeof b.entries === "number" ? b.entries : null;
+        if (ea == null && eb == null) return compareNullableDates(a.deadline, b.deadline);
+        if (ea == null) return 1;
+        if (eb == null) return -1;
+        return eb - ea;
+      });
     }
     return arr;
   }
@@ -440,6 +452,25 @@ const Shared = (function () {
     return `${formatDate(start)} – ${formatDate(end)}`;
   }
 
+  /**
+   * Short label for the number of players signed up so far, or null when we
+   * have no count. Only TournamentSoftware publishes this figure, and a couple
+   * of its events sit behind a login, so a missing count is normal.
+   */
+  function entriesLabel(t) {
+    if (typeof t.entries !== "number") return null;
+    if (t.entries === 0) return "No entries yet";
+    return `${t.entries.toLocaleString()} ${t.entries === 1 ? "entry" : "entries"}`;
+  }
+
+  /** Tooltip that says where the count came from and how fresh it is. */
+  function entriesTooltip(t) {
+    if (typeof t.entries !== "number") return "";
+    const when = t.entriesUpdated ? formatDate(parseCalendarDate(t.entriesUpdated)) : null;
+    const src = t.sourcePlatform || "the tournament page";
+    return when ? `Entries listed on ${src} as of ${when}` : `Entries listed on ${src}`;
+  }
+
   function escapeHtml(str) {
     if (str == null) return "";
     return String(str)
@@ -523,7 +554,8 @@ const Shared = (function () {
     enrich, isRegisterable, isLeague, compareNullableDates, sortList,
     urgencyStatus, renderDeadlinePill, countdownLabel,
     formatDeadlineIn, formatDeadlineInUserZone, formatDeadlineInVenueZone,
-    formatDate, formatDateRange, escapeHtml, escapeAttr, haversineMiles,
+    formatDate, formatDateRange, entriesLabel, entriesTooltip,
+    escapeHtml, escapeAttr, haversineMiles,
     geocode, debounce, populateStateFilter, populateTimeZoneSelect,
   };
 })();

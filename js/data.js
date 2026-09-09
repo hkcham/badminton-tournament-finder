@@ -29,6 +29,16 @@
  * time, or null if unknown/not yet announced (it will sort to the bottom and
  * show "TBD"). For a league this is the season sign-up deadline, not a
  * per-match date.
+ *
+ * entries / entriesUpdated: how many players have signed up so far, plus the
+ * date that number was read. Only TournamentSoftware publishes this, on the
+ * tournament overview page next to the "Events" count, so most non-TS entries
+ * simply leave both fields off. Leaving them off is meaningful: the site sorts
+ * events with no count to the bottom of the "Number of entries" sort instead
+ * of treating them as zero. A real 0 (registration open, nobody entered yet)
+ * should be stored as 0, not omitted. A couple of BWF-sanctioned events sit
+ * behind a login on bwf.tournamentsoftware.com and have no public count, so
+ * they stay unset too. The daily scheduled task refreshes these numbers.
  */
 
 const TOURNAMENTS = [
@@ -335,6 +345,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=93EF121A-C65A-4255-8049-C645B78262E5",
+    entries: 316,
+    entriesUpdated: "2026-09-09",
     description: "Open divisions A/B/C/D plus U13, Junior, and 40+ categories."
   },
   {
@@ -355,6 +367,8 @@ const TOURNAMENTS = [
     prizeNote: "Junior event; no cash prize",
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=EFC4B21B-6A15-4617-84FF-D689027DC515",
+    entries: 66,
+    entriesUpdated: "2026-09-09",
     description: "U11/U13/U15 divisions. Restricted to Charlotte-area city kids per the listing."
   },
   {
@@ -375,6 +389,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=D1546237-3B03-4D89-A583-3CDAA5951265",
+    entries: 167,
+    entriesUpdated: "2026-09-09",
     description: "Open divisions A/B/C plus 40+."
   },
   {
@@ -395,6 +411,8 @@ const TOURNAMENTS = [
     prizeNote: "Charity event",
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=A7C034D6-DD0E-47CF-A4B3-89B78DA3D237",
+    entries: 266,
+    entriesUpdated: "2026-09-09",
     description: "Open divisions A/B/C/D/J plus Open. Entry closes imminently, so register right away if interested."
   },
   {
@@ -415,6 +433,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=0A4F35FC-033E-473A-8921-1540CE8844CD",
+    entries: 130,
+    entriesUpdated: "2026-09-09",
     description: "Open divisions A/B/C plus U18."
   },
   {
@@ -435,6 +455,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=A14003CC-070E-466A-A18E-AC5FCF4F3848",
+    entries: 213,
+    entriesUpdated: "2026-09-09",
     description: "9-and-under plus A/B/C divisions."
   },
   {
@@ -455,6 +477,8 @@ const TOURNAMENTS = [
     prizeNote: "Junior beginners event; no cash prize",
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=0B48F2F4-EDE1-42D0-9E69-B7286F38DD20",
+    entries: 25,
+    entriesUpdated: "2026-09-09",
     description: "U9/U11/U13/U15/U17 beginner divisions."
   },
   {
@@ -475,6 +499,8 @@ const TOURNAMENTS = [
     prizeNote: "Charity event",
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=E0FF2CFA-6331-4D2A-B2D5-362B125647C2",
+    entries: 45,
+    entriesUpdated: "2026-09-09",
     description: "Open division plus U11/U15/U17."
   },
   {
@@ -495,6 +521,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=E2AB2ABA-191F-4772-9F79-40D9D2D390D1",
+    entries: 40,
+    entriesUpdated: "2026-09-09",
     description: "Open divisions A/B/C/D plus 35+/40+/50+."
   },
   {
@@ -515,6 +543,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=378307EF-0AA1-48C9-81D0-5EC65B7E1022",
+    entries: 102,
+    entriesUpdated: "2026-09-09",
     description: "Open divisions A/B/C/J plus Junior U11/U13/U15 and Open. Same venue as December's national championships."
   },
   {
@@ -535,6 +565,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=80C90721-E2AF-46BE-9859-2EDCF3409240",
+    entries: 90,
+    entriesUpdated: "2026-09-09",
     description: "Open divisions A/B plus U9-U17 and 30+/35+."
   },
   {
@@ -555,6 +587,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=75EE9BDC-5F76-4163-94BA-1A90582316FC",
+    entries: 0,
+    entriesUpdated: "2026-09-09",
     description: "USA Badminton sanctioned Open Local Championship; U11/U13/U15/U17/U19 divisions."
   },
   {
@@ -575,6 +609,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=7EEDD506-53C6-47E0-8E06-31B2D589CFDF",
+    entries: 44,
+    entriesUpdated: "2026-09-09",
     description: "Open divisions A/B/C/D. \"LXXII\" marks the tournament's 72nd annual running."
   },
   {
@@ -595,6 +631,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=02CCA815-2496-4997-AC0E-8F3B8FD47A4D",
+    entries: 47,
+    entriesUpdated: "2026-09-09",
     description: null
   },
   {
@@ -635,6 +673,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=A5A277E2-E158-4BAA-B1F5-6BA4B8F99014",
+    entries: 206,
+    entriesUpdated: "2026-09-09",
     description: "USA Badminton sanctioned Open Regional Championship for the Northeast region; U11/U13/U15/U17/U19 divisions."
   },
   {
@@ -655,6 +695,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=F5DF78FA-2078-4BB0-86AF-AAE8DB4B2233",
+    entries: 5,
+    entriesUpdated: "2026-09-09",
     description: "Open plus U11/U14 and 45+. Entry handled via a separate rating-system platform rather than direct TournamentSoftware entry."
   },
   {
@@ -675,6 +717,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=37133CCA-6DD6-484F-B874-D19B51C03B4C",
+    entries: 7,
+    entriesUpdated: "2026-09-09",
     description: "Open divisions A/B/C/D/J."
   },
   {
@@ -695,6 +739,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=1BA611C7-5BB9-4FEF-978E-7E1F86C286A6",
+    entries: 24,
+    entriesUpdated: "2026-09-09",
     description: "Open divisions A/B/C/D/J plus U11/U16."
   },
   {
@@ -715,6 +761,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=2361B522-B57A-4397-8E4D-DD58F2AF49F7",
+    entries: 0,
+    entriesUpdated: "2026-09-09",
     description: "USA Badminton sanctioned Open Local Championship; U11/U13/U15/U17/U19 divisions."
   },
   {
@@ -735,6 +783,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=A358C5A2-04CA-4861-8ABC-C7D3C569634B",
+    entries: 0,
+    entriesUpdated: "2026-09-09",
     description: null
   },
   {
@@ -755,6 +805,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=1C896952-0D7A-4862-BF91-07A7025FF291",
+    entries: 4,
+    entriesUpdated: "2026-09-09",
     description: "21-and-over division. Entry handled via a separate rating-system platform rather than direct TournamentSoftware entry."
   },
   {
@@ -775,6 +827,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=378084DD-90F9-4449-A9A6-AEAB6611703D",
+    entries: 5,
+    entriesUpdated: "2026-09-09",
     description: "Open Mens/Womens/Mixed Doubles, Funky Doubles (combined age 70+), Family/Junior Doubles, and Junior Singles. Junior (U16) fees waived thanks to sponsors. Also listed on Facebook (facebook.com/events/1538432384977567)."
   },
   {
@@ -795,6 +849,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=879C8DEC-B8E8-4AB4-8841-7D07D34950CF",
+    entries: 77,
+    entriesUpdated: "2026-09-09",
     description: "USA Badminton sanctioned Open Regional Championship; U11/U13/U15/U17/U19 divisions. Distinct from the earlier Bintang NorCal Open Local Championship in March."
   },
   {
@@ -815,6 +871,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=FC738607-2326-4D72-B704-C9B47BA2B7B4",
+    entries: 7,
+    entriesUpdated: "2026-09-09",
     description: "Open divisions A/B/C/D/J, singles-only format."
   },
   {
@@ -835,6 +893,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=786BDF3A-236F-402A-A065-D6C3370E7F6D",
+    entries: 0,
+    entriesUpdated: "2026-09-09",
     description: "Open plus U11 and 40+."
   },
   {
@@ -855,6 +915,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=BFA24072-D511-4628-B54E-9FC5A0DD660E",
+    entries: 0,
+    entriesUpdated: "2026-09-09",
     description: "Open plus U11/U13/U15/U17 and 35+/45+/55+. Near Austin, TX."
   },
   {
@@ -875,6 +937,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=64923D76-00A1-457A-B87D-602D831E8352",
+    entries: 3,
+    entriesUpdated: "2026-09-09",
     description: "Senior/masters divisions only: 34+, 39+, 44+, 49+, 54+, 59+, 64+."
   },
   {
@@ -895,6 +959,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=5AA6988A-3A7F-455D-8945-0627A41B7F82",
+    entries: 4,
+    entriesUpdated: "2026-09-09",
     description: "Open divisions A/B/17+/C plus Open, U11/U13/U15/U16/U17, and 40+/45+."
   },
   {
@@ -915,6 +981,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=B8AA03C7-DEAF-4703-BB26-38B5845E9DA1",
+    entries: 0,
+    entriesUpdated: "2026-09-09",
     description: "USA Badminton sanctioned Open Local Championship; U11/U13/U15/U17/U19 divisions. A separate Midwest OLC was already held in January."
   },
   {
@@ -935,6 +1003,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=13C25A98-AD65-43A9-ABF3-C80D6FB210C5",
+    entries: 0,
+    entriesUpdated: "2026-09-09",
     description: "\"Closed\" championship (entry restricted, e.g. by residency/club) rather than an open regional; U11/U13/U15/U17/U19 divisions."
   },
   {
@@ -955,6 +1025,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=1EB36537-8088-4C57-87B2-6DB1B834C292",
+    entries: 5,
+    entriesUpdated: "2026-09-09",
     description: "Open divisions A/B/C/D/J plus 39+."
   },
   {

@@ -184,6 +184,7 @@
         <div>${deadlinePill}</div>
         <div class="map-popup-meta">📍 ${S.escapeHtml(t.venue || "")}${t.city ? `, ${S.escapeHtml(t.city)}` : ""}${t.state ? `, ${S.escapeHtml(t.state)}` : ""}</div>
         <div class="map-popup-meta">📅 ${dateRange}</div>
+        ${S.entriesLabel(t) ? `<div class="map-popup-meta" title="${S.escapeAttr(S.entriesTooltip(t))}">👥 ${S.escapeHtml(S.entriesLabel(t))}</div>` : ""}
         <div class="map-popup-meta">${t.prizeMoney != null ? "💰 $" + Number(t.prizeMoney).toLocaleString() + " prize purse" : ""}</div>
         ${t.sourceUrl ? `<a class="link-btn" style="margin-top:8px;display:inline-block;" href="${S.escapeAttr(t.sourceUrl)}" target="_blank" rel="noopener">View / Register →</a>` : ""}
       </div>

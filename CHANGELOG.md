@@ -63,3 +63,18 @@ already on file checked out against today's sources.
   open-tournament posts (CMU's own post is already tracked as `ig-cmu-open-tournament-2026`; the
   other two only showed tryouts/social posts). The remaining 35 accounts were not checked today;
   worth a retry on the next run, since the throttle is presumably temporary.
+
+## 2026-09-09
+
++ Added entry counts to every TournamentSoftware tournament that publishes one (31 events). The
+  number comes from the "Entries" figure on each tournament overview page, next to "Events".
++ Added a "Number of entries (most)" option to the Sort by menu. Events with no published count
+  sort to the bottom rather than being treated as having zero entries.
++ Entry counts now show on the tournament cards and in map popups, with a tooltip giving the date
+  the number was read.
++ Added a "Why this site exists" section at the top of the tournaments page.
++ The daily refresh task now re-reads entry counts on every run, since they change as registration
+  fills up.
++ Two BWF-sanctioned events (Arise International Challenge, LA Open) keep no count: they redirect
+  to bwf.tournamentsoftware.com and require a login. Leagues resolve to organization pages with no
+  entries figure, so they have no count either.

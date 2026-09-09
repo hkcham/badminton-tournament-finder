@@ -179,6 +179,7 @@
       case "distance":
         return userCoords ? `Sorted by distance from ${userCoords.label}.` : "Set your address above to sort by distance.";
       case "prize": return "Sorted by prize money, highest first.";
+      case "entries": return "Sorted by number of entries, most first. Events that do not publish a count are listed last.";
       default: return "";
     }
   }
@@ -189,6 +190,7 @@
 
     const dateRange = S.formatDateRange(t.start, t.end);
     const deadlinePill = S.renderDeadlinePill(t);
+    const entriesLabel = S.entriesLabel(t);
 
     card.innerHTML = `
       <div class="card-top">
@@ -203,6 +205,7 @@
         <span class="meta-item">📍 ${S.escapeHtml(t.venue || "")}${t.city ? `, ${S.escapeHtml(t.city)}` : ""}${t.state ? `, ${S.escapeHtml(t.state)}` : ""}</span>
         <span class="meta-item">📅 ${dateRange}</span>
         ${t.distanceMiles != null ? `<span class="meta-item">📏 ${t.distanceMiles.toFixed(0)} mi away</span>` : ""}
+        ${entriesLabel ? `<span class="meta-item entries-meta" title="${S.escapeAttr(S.entriesTooltip(t))}">👥 ${S.escapeHtml(entriesLabel)}</span>` : ""}
         ${t.sourcePlatform ? `<span class="badge source">${S.escapeHtml(t.sourcePlatform)}</span>` : ""}
       </div>
       ${t.description ? `<p class="card-desc">${S.escapeHtml(t.description)}</p>` : ""}
