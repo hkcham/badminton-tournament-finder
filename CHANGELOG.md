@@ -2,6 +2,43 @@
 
 Daily data-maintenance log for `js/data.js`, kept by the scheduled refresh task.
 
+## 2026-09-11
+
++ Added **North Shore Open 2026** (`ts-north-shore-open-2026`): found via TournamentSoftware's
+  national search, not previously tracked. Oct 3-4, 2026 at Shannon Pohl Badminton Academy, Vernon
+  Hills, IL; deadline Sept 19, 11:59 PM CDT; 0 entries so far.
++ Added **2026 SBC Open** (`ts-sbc-open-2026`): found via TournamentSoftware, hosted directly by the
+  Seattle Badminton Club. Nov 6-8, 2026 in Kirkland, WA; deadline Oct 23, 11:59 PM PDT; 0 entries.
++ Added **Michigan Open 2026 Fall** (`ts-michigan-open-2026-fall`): found via TournamentSoftware.
+  Nov 7-8, 2026 at Sparc in Novi, MI; deadline Nov 4, 11:59 PM; 1 entry so far.
++ Added **Club Championship North America 2026** (`ts-league-club-championship-north-america-2026`):
+  new result on TournamentSoftware's league search (now 4 leagues total, up from 3). Sept 12-13, 2026
+  at Manhattan Beach Badminton Club under SCBA; no online-entry deadline shown on its organization
+  page, and since it starts the day after this check, entry is probably already closed.
++ Added **Frisco Open 2027** (`frisco-open-2027`): found via a general web search that surfaced
+  friscobadminton.com's own events page. April 15-18, 2027 at Frisco Badminton Academy, Frisco, TX;
+  $150,000 USD in prize money across Open A/B, Members Only, and Seniors draws; not USA Badminton
+  sanctioned; registration not yet open, so `registrationDeadline` stays null with a note to watch
+  for registration news.
+~ Updated **2026 EBC Webadminton Charity Tournament** (`ts-ebc-webadminton-charity-2026`): its own
+  TournamentSoftware page now shows the closing deadline extended from Sept 8 to Sept 11, 11:59 PM
+  PDT (the listing's "8h left" countdown didn't match the stored Sept 8 date, which is what flagged
+  this for a re-check); tightened the address to "33540 Central Ave, Union City, CA" and re-geocoded;
+  added prize money ($2,000 for A/AB-combined events plus $2,000 for all other events, per the
+  organizer's own description) which had been unlisted before; entries refreshed 266 to 271.
+~ Refreshed `entries`/`entriesUpdated` on every other upcoming TournamentSoftware tournament already
+  in the file (29 events): notable jumps include Peak Open 2026 (102 to 161), NVBC Open Championship
+  (40 to 51), Fortius South OLC (0 to 28), Bay Badminton Championships (5 to 15), and Madison
+  Badminton Invitational (5 to 12); ten events had no change in count but got their `entriesUpdated`
+  date refreshed anyway per the daily-refresh convention. Arise International Challenge and LA Open
+  remain uncounted (BWF login gate, as expected); the 3 leagues remain uncounted (organization pages
+  have no entries stat, as expected).
+- Checked Facebook Events for Pioneer Badminton (`pioneer.badminton.IL`), Southern Asian Association
+  of Badminton (SAABHOU), and Capital Badminton Academy: all upcoming events shown matched what's
+  already in the file, nothing new. A general web search for other US club Facebook tournament posts
+  (New York, general) surfaced nothing usable beyond what's above; most results were BWF World Tour
+  Wikipedia pages, not local club events.
+
 ## 2026-09-08
 
 No new tournaments or leagues found (checked TournamentSoftware, 38 Instagram accounts, 3 Facebook
