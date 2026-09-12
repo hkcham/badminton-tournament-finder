@@ -2,6 +2,47 @@
 
 Daily data-maintenance log for `js/data.js`, kept by the scheduled refresh task.
 
+## 2026-09-12
+
+~ Resolved a pointer for **Club Championship North America 2026**
+  (`ts-league-club-championship-north-america-2026`): TournamentSoftware's tournament search
+  surfaced a new ID (`F9EED036-...`) for what turned out to be the same real-world event already
+  tracked, just via its actual tournament instance page rather than the SCBA organization page the
+  stored `sourceUrl` pointed to. Switched `sourceUrl` to the instance page, which exposed a real
+  closing deadline (Sept 11, 11:59 PM PDT) and entry count (55) that the organization page never
+  showed; both had been null/missing before.
+~ Updated **Peak Open 2026** (`ts-peak-open-2026`): the organizer's own update posted on the
+  tournament page says registration was extended from Sept 11 to Sept 16 (11:59 PM EDT) after
+  players asked for more time; entries jumped 161 to 179 as a result.
+~ Updated **2026 Fortius South Open Local Championships** (`ts-fortius-south-olc-2026`): online
+  entry has now opened (deadline was previously not shown); closing deadline Sept 17, 11:59 AM PDT.
+  Also filled in the real venue name and street address (Fortius Sports Academy, 5905 Ronald Reagan
+  Blvd, Alpharetta, GA 30005) in place of the generic "USA Badminton / Alpharetta, GA" placeholder.
+~ Updated **2026 Austin Leander South Open Local Championships** (`ts-austin-leander-south-olc-2026`):
+  online entry has now opened; closing deadline Oct 1, 11:59 AM PDT. Also filled in the real venue
+  and address (Austin Badminton Leander, 11561 Hero Way W Bldg 2, Leander, TX 78641).
+~ Updated **2026 Bay Badminton Championships** (`ts-bay-badminton-championships-2026`): online entry
+  has now opened; closing deadline Nov 17, 11:59 PM PST. Also filled in the real venue and address
+  (Bay Badminton Center, 1191 Montague Expwy, Milpitas, CA 95035).
+~ Refreshed `entries`/`entriesUpdated` on every other upcoming TournamentSoftware tournament already
+  in the file (30 events, all dated today through Nov 8). Notable jumps: Northwest Open 2026 (122 to
+  140), Fortius South OLC (28 to 32, see above), IBC Indy Open (67 to 76), Golden Bear LXXII (65 to
+  70), Bintang NorCal ORC (110 to 113), North Shore Open (0 to 2). Several stayed flat but still got
+  their `entriesUpdated` date stamped for today. Arise International Challenge and LA Open remain
+  uncounted (BWF login gate, as expected). HBDF Hana Challenge and PBCA Oktoberfest live on the
+  scba.tournamentsoftware.com subdomain, which fails a same-origin `fetch()` from www, so those two
+  were checked by direct navigation instead (7 to 7, and 7 to 9).
+- Re-ran TournamentSoftware's tournament search (still 37 results, one of which was the Club
+  Championship duplicate-pointer resolved above, so no genuinely new tournament to add) and league
+  search (still the same 4 leagues, unchanged).
+- Checked Facebook Events for Pioneer Badminton (`pioneer.badminton.IL`), Southern Asian Association
+  of Badminton (SAABHOU), and Capital Badminton Academy: all upcoming events shown matched what's
+  already in the file (SAABHOU's Lunar New Year tournament is now in their "Past" tab, consistent
+  with its March 2026 date). Note: `facebook.com/PioneerBadminton` (no trailing IL) is a
+  different, inactive page; the real page is `pioneer.badminton.IL`. A general web search for other
+  US club Facebook tournament posts surfaced nothing usable beyond BWF World Tour Wikipedia pages.
+  Instagram is out of scope for this task (moved to the separate biweekly task).
+
 ## 2026-09-11
 
 + Added **North Shore Open 2026** (`ts-north-shore-open-2026`): found via TournamentSoftware's
