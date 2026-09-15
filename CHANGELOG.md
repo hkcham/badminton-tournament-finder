@@ -2,6 +2,29 @@
 
 Daily data-maintenance log for `js/data.js`, kept by the scheduled refresh task.
 
+## 2026-09-15 (Instagram sweep)
+
+- Ran the Apify `instagram-scraper` actor once across all 38 accounts in `badminton instagrams.txt`,
+  pulling the last 10 posts per account (372 posts total, 1 account restricted/unreadable:
+  `zh0._.ism`, which is not one of ours and appears to have been surfaced by a cross-tagged post).
+  Filtered for open-tournament keywords, then read each candidate caption in full; about 105 posts
+  matched a keyword but the large majority were tryouts, recruitment/quad-day posts, open-gym
+  schedules, recaps of past tournaments, or intraclub-only events, none of which qualify.
+- Added **UIUC Fall Open 2026** (`ig-uiuc-fall-open-2026`): new open tournament announced only on
+  `@uiuc.badminton`'s Instagram, Oct 10-11 at the University of Illinois Urbana-Champaign's
+  Activities and Recreation Center. Registration deadline Oct 4, 11:59 PM; not listed on
+  TournamentSoftware.
+- Updated **2026 Golden Bear LXXII** (`ts-golden-bear-lxxii-2026`) and **2026 Cardinal Open**
+  (`ts-cardinal-open-2026`), both already tracked via TournamentSoftware: their host clubs'
+  Instagram posts (`@cal_badminton`, `@stanford_badminton`) mentioned prize money that
+  TournamentSoftware's own page doesn't show, so added a `prizeNote` to each (no dollar amount was
+  given in either post, so `prizeMoney` stays null).
+- Everything else that mentioned a real open tournament (CMU Open, both already covered by the
+  existing `ig-cmu-open-tournament-2026` entry) was either already on file or a past event now being
+  recapped (e.g. Bruin Open, WashU Open, Anteater Collegiate Championship, Purdue Open, Trojan Cup,
+  UGA Intercollegiate, Emory Collegiate Open, VT Open, Houston Open, Firebird, Sun God, Polar Bear,
+  Buzz's Birdie Bash), so nothing further was added for those.
+
 ## 2026-09-12
 
 ~ Resolved a pointer for **Club Championship North America 2026**

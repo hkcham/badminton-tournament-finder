@@ -626,7 +626,7 @@ const TOURNAMENTS = [
     registrationDeadline: "2026-09-28T23:59:00",
     deadlineNote: "11:59 PM",
     prizeMoney: null,
-    prizeNote: null,
+    prizeNote: "Prize money for all events, per Cal Badminton's Instagram announcement (amount not specified)",
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=7EEDD506-53C6-47E0-8E06-31B2D589CFDF",
     entries: 70,
@@ -734,7 +734,7 @@ const TOURNAMENTS = [
     registrationDeadline: "2026-10-11T23:59:00",
     deadlineNote: "11:59 PM",
     prizeMoney: null,
-    prizeNote: null,
+    prizeNote: "Cash prize for A flight finalists, per Stanford Badminton's Instagram announcement (amount not specified)",
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=37133CCA-6DD6-484F-B874-D19B51C03B4C",
     entries: 12,
@@ -1230,16 +1230,13 @@ const TOURNAMENTS = [
   },
 
   // ---------------------------------------------------------------------
-  // Found via a manual sweep of 38 university badminton club Instagram
-  // accounts (see badminton instagrams.txt), reading each account's visible
-  // post grid without logging in. Instagram's own alt-text image
-  // descriptions (which include OCR'd flyer text) were used to read post
-  // content. This was the ONLY genuine open-tournament announcement found
-  // across all 38 accounts as of 2026-09-07; every other club's recent
-  // posts were internal tryouts, practice schedules, recruitment/quad-day
-  // events, or socials, not tournaments anyone outside the club could enter.
-  // Re-sweep periodically; a club's own open tournament is a rare post for
-  // most of these accounts.
+  // Found via periodic sweeps of ~38 university badminton club Instagram
+  // accounts (see badminton instagrams.txt), using the Apify instagram-scraper
+  // actor to pull each account's last 10 posts. Most posts across all
+  // accounts are internal tryouts, practice schedules, recruitment/quad-day
+  // events, socials, or recaps of past events, not tournaments anyone
+  // outside the club could enter. A genuine open-tournament announcement is
+  // a rare post for most of these accounts.
   // ---------------------------------------------------------------------
   {
     id: "ig-cmu-open-tournament-2026",
@@ -1260,5 +1257,25 @@ const TOURNAMENTS = [
     sourcePlatform: "Instagram",
     sourceUrl: "https://www.instagram.com/cmubadminton/p/Dbb9Hbxpyeh/",
     description: "Open badminton tournament hosted by Carnegie Mellon University's Club Badminton team: MS/WS/MD/WD/XD divisions, elimination bracket. Announced only on the club's Instagram (@cmubadminton); not listed on TournamentSoftware or usabadminton.org."
+  },
+  {
+    id: "ig-uiuc-fall-open-2026",
+    name: "UIUC Fall Open 2026",
+    level: "Open Tournament",
+    venue: "Activities and Recreation Center (ARC), Gym 3",
+    city: "Champaign",
+    state: "IL",
+    address: "201 E Peabody Dr, Champaign, IL 61820",
+    lat: 40.1006,
+    lng: -88.2361,
+    startDate: "2026-10-10",
+    endDate: "2026-10-11",
+    registrationDeadline: "2026-10-04T23:59:00",
+    deadlineNote: "11:59 PM; drop/refund deadline is Tuesday, October 6th at 11:59 PM",
+    prizeMoney: null,
+    prizeNote: "Medals to winners and runners-up of each flight; free shirts for all participants",
+    sourcePlatform: "Instagram",
+    sourceUrl: "https://www.instagram.com/uiuc.badminton/p/DdSuCFmtUN6/",
+    description: "Open tournament hosted by the University of Illinois Urbana-Champaign badminton club: MS/MD/WS/WD/XD divisions, ABCD drop flight, rally scoring, best of 3. Announced only on the club's Instagram (@uiuc.badminton); not listed on TournamentSoftware."
   }
 ];
