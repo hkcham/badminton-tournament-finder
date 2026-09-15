@@ -2,6 +2,31 @@
 
 Daily data-maintenance log for `js/data.js`, kept by the scheduled refresh task.
 
+## 2026-09-15
+
++ Added **Iowa Open 2026** (`ts-iowa-open-2026`): new tournament found via TournamentSoftware's
+  national search, Oct 17-18 at the Forker Building, Iowa State University, Ames, IA. Closing
+  deadline Sat Oct 3, 11:59 PM CDT; 1 entry so far.
+~ Refreshed entry counts on 29 upcoming TournamentSoftware tournaments/leagues (all past events
+  from this week were skipped since the site already hides them). Biggest jumps: Northwest Open
+  2026 140 to 273, Massbad Northeast ORC 239 to 300, IBC Indy Open 76 to 177.
+~ Updated **Fall 2026 Pioneer Badminton Open** (`pioneer-badminton-open-fall-2026`): Pioneer
+  Badminton's own website now links this event's "Event Information" button to a different
+  Facebook event dated Dec 5-6, 2026 (with a new registration form) instead of the originally
+  listed Nov 14-15 date, so the dates and source link were updated to match. Exact new registration
+  deadline is not shown on the new event page, so it was reset to null with a note explaining the
+  reschedule; the old, more specific fee note was softened since it isn't reconfirmed on the new
+  page.
+~ Marked **2026 Pioneer Team Tournament Fall** (`pioneer-team-tournament-fall-2026`) as
+  `[CANCELED]` in its name: its Facebook event page now reads "This event was canceled," confirmed
+  via the same link Pioneer Badminton's own website uses for that event's "Event Information"
+  button.
+- Checked Facebook event/club pages for SAABHOU and Capital Badminton Academy (no new tournaments
+  beyond what's already tracked); most other club Facebook page/event URLs hit a login wall today
+  that wasn't there on prior runs, so Facebook coverage was more limited than usual. A web search
+  for additional regional club pages (FL, NY, TX) surfaced nothing new beyond what's already on
+  file.
+
 ## 2026-09-15 (Instagram sweep)
 
 - Ran the Apify `instagram-scraper` actor once across all 38 accounts in `badminton instagrams.txt`,
