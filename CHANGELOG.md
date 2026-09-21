@@ -2,6 +2,31 @@
 
 Daily data-maintenance log for `js/data.js`, kept by the scheduled refresh task.
 
+## 2026-09-21
+
++ Added 8 new tournaments found via TournamentSoftware's national search, all confirmed not yet in
+  the file by sourceUrl: **Austin Junior Smash Series #2** (`ts-austin-junior-smash-2-2026`, Sept
+  27, Pflugerville TX), **ATM Badminton Tournament 2026** (`ts-atm-badminton-tournament-2026`, Oct
+  10, Fortius Sports Academy), **Madison Open 2026** (`ts-madison-open-2026`, Oct 17-18, Nicholas
+  Recreation Center, Madison WI; distinct from the existing Madison Badminton Invitational),
+  **Arch St Louis Fall Open Badminton** (`ts-arch-stlouis-fall-open-2026`, Oct 24-25, Bridgeton
+  MO), **UofM Open Fall 2026** (`ts-uofm-open-fall-2026`, Oct 24-25, Ann Arbor MI), **Aggie Open
+  '26** (`ts-aggie-open-2026`, Nov 14-15, Union City CA; the renamed Davis Fall Open), **Sonic
+  Challenge Tournament** (`ts-sonic-challenge-tournament-2026`, Nov 21-22, Vacaville CA), and
+  **2026 Austin Open** (`ts-austin-open-2026-dec`, Dec 4-6, Leander TX). Skipped a ninth new
+  listing named plainly "TEST" (2026 MA Senior Games's Sept 20 date was also skipped since it had
+  already occurred by the time this ran).
+~ Refreshed entry counts on 30 upcoming TournamentSoftware tournaments/leagues. Biggest jumps:
+  NVBC Open Championship 78 to 201, Bintang NorCal ORC 143 to 217, Golden Bear LXXII 99 to 139,
+  Cardinal Open 30 to 58. HBDF Hana Challenge and PBCA Oktoberfest counts were read from their
+  scba.tournamentsoftware.com subdomain pages since same-origin fetch from www fails there.
+- Checked Facebook events for Pioneer Badminton, SAABHOU, and Capital Badminton Academy: no new
+  tournaments beyond what's already tracked (SAABHOU and Capital Badminton Academy show no
+  upcoming events at all; Pioneer Badminton's dedicated events tab now requires login, so only its
+  existing Fall 2026 Open event page was checked directly, no changes found). A general web search
+  for other club Facebook pages surfaced only professional BWF tour results, nothing new for US
+  club-level tournaments.
+
 ## 2026-09-15
 
 + Added **Iowa Open 2026** (`ts-iowa-open-2026`): new tournament found via TournamentSoftware's
