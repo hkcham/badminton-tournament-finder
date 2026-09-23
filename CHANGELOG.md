@@ -2,6 +2,31 @@
 
 Daily data-maintenance log for `js/data.js`, kept by the scheduled refresh task.
 
+## 2026-09-23
+
++ Added **2026 Connecticut Junior State Badminton Championships**
+  (`ts-ct-junior-state-championships-2026`): found via TournamentSoftware, Oct 24 at Fly Badminton
+  Club, East Granby CT (U11/U15/U19), deadline Oct 16.
++ Added **2026 PMR Law Houston Open** (`ts-pmr-law-houston-open-2026`): found via
+  TournamentSoftware, Nov 13-15 at Houston Badminton Center, Stafford TX, deadline Oct 30 (online
+  entry opens Sept 25). Skipped the placeholder listing named "TEST" again.
+~ Updated deadlines that changed on TournamentSoftware: Fortius South OLC extended from Sept 17 to
+  Sept 24 (11:59 AM PDT); North Shore Open extended from Sept 19 to Sept 24; ATM Badminton
+  Tournament moved from Oct 3 to Oct 7; Bintang NorCal ORC from Oct 7 11:59 PM to Oct 8 11:59 AM
+  PDT; and already-closed deadlines corrected to what the pages now show (Northwest Open Sept 17,
+  IBC Indy Open Sept 18, MassBad Northeast ORC Sept 17 11:59 AM PDT).
+~ Corrected Austin Leander South OLC start date from Oct 23 to Oct 24 per its TournamentSoftware
+  page (end date Oct 25 unchanged).
+~ Refreshed entry counts on 35 upcoming TournamentSoftware tournaments (HBDF Hana Challenge and PBCA
+  Oktoberfest read directly on scba.tournamentsoftware.com). Biggest jumps: North Shore Open 33 to
+  75, Golden Bear LXXII 139 to 171, Bintang NorCal ORC 217 to 252, NVBC Open 201 to 218.
+- League search still shows only the 2 upcoming leagues already tracked; no changes.
+- Checked 3 Facebook pages (SAABHOU, Pioneer Badminton via its Fall 2026 Open event page, and Bay
+  Area Corporate Badminton Challenge found via web search): no new upcoming tournaments. SAABHOU and
+  BACBC list only past events; Pioneer's Dec 5-6 Open is unchanged and still shows no deadline.
+- Local preview server could not be started in this unattended run, so data.js was instead
+  validated by parsing the whole array (67 entries, all ids and sourceUrls unique).
+
 ## 2026-09-21
 
 + Added 8 new tournaments found via TournamentSoftware's national search, all confirmed not yet in
