@@ -2,6 +2,23 @@
 
 Daily data-maintenance log for `js/data.js`, kept by the scheduled refresh task.
 
+## 2026-09-24
+
+- No new tournaments or leagues found (checked TournamentSoftware tournaments and leagues, 2
+  Facebook pages). All 43 US tournament results are already tracked, apart from 3 that finished
+  last weekend and the placeholder listing named "TEST", which was skipped again. League search
+  still shows only the 2 upcoming leagues already tracked.
+- Every "Online Entry" countdown on TournamentSoftware matches the deadline already stored, so no
+  deadline changes today.
+~ Refreshed entry counts on 37 upcoming TournamentSoftware tournaments (HBDF Hana Challenge and PBCA
+  Oktoberfest read directly on scba.tournamentsoftware.com); 22 went up. Biggest jumps: North Shore
+  Open 75 to 113, Bintang NorCal ORC 252 to 276, Golden Bear LXXII 171 to 189, Austin Junior Smash
+  #2 9 to 17, HBDF Hana Challenge 36 to 45.
+- Facebook: SAABHOU lists only past events; Pioneer's Dec 5-6 Fall Open event page is unchanged
+  and still shows no deadline.
+- Local preview server could not be started in this unattended run, so data.js was instead
+  validated by parsing the whole array (67 entries, all ids and sourceUrls unique).
+
 ## 2026-09-23
 
 + Added **2026 Connecticut Junior State Badminton Championships**
