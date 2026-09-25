@@ -244,10 +244,10 @@ const TOURNAMENTS = [
     lng: -88.1001,
     startDate: "2026-12-05",
     endDate: "2026-12-06",
-    registrationDeadline: null,
-    deadlineNote: "Rescheduled from the original Nov 14-15 date to Dec 5-6 (confirmed via the club's own website, which links to a new Facebook event with a new registration form); exact registration deadline not shown on the new event page",
+    registrationDeadline: "2026-11-21T23:59:00",
+    deadlineNote: "Registration and payment deadline Nov 21, 2026 per the Facebook event page (no time of day given); drop/refund deadline Nov 28. Late sign-ups pay an extra $10. Rescheduled from the original Nov 14-15 date to Dec 5-6",
     prizeMoney: null,
-    prizeNote: "Prizes awarded to winners and runners-up of each flight (amount not listed); entry fees not reconfirmed on the new event page",
+    prizeNote: "Prizes awarded to winners and runners-up of each flight (amount not listed); entry fees $50/$70/$75 for 1/2/3 events, Zelle or Venmo only",
     sourcePlatform: "Facebook",
     sourceUrl: "https://www.facebook.com/events/990962520306371/",
     description: "Individual-entry open (MS/MD/WS/WD/XD, ABCD drop-flight) run directly by Pioneer Badminton. Not on TournamentSoftware or usabadminton.org. Registration through a Google Form linked on the event page. Originally listed for Nov 14-15, 2026; pioneerbadminton.com now links this event's \"Event Information\" button to a Facebook event dated Dec 5-6 instead, so the date shown here has been updated accordingly."
@@ -541,8 +541,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=E2AB2ABA-191F-4772-9F79-40D9D2D390D1",
-    entries: 220,
-    entriesUpdated: "2026-09-24",
+    entries: 221,
+    entriesUpdated: "2026-09-25",
     description: "Open divisions A/B/C/D plus 35+/40+/50+."
   },
   {
@@ -563,8 +563,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=378307EF-0AA1-48C9-81D0-5EC65B7E1022",
-    entries: 244,
-    entriesUpdated: "2026-09-24",
+    entries: 245,
+    entriesUpdated: "2026-09-25",
     description: "Open divisions A/B/C/J plus Junior U11/U13/U15 and Open. Same venue as December's national championships."
   },
   {
@@ -586,7 +586,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=80C90721-E2AF-46BE-9859-2EDCF3409240",
     entries: 305,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open divisions A/B plus U9-U17 and 30+/35+."
   },
   {
@@ -608,7 +608,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=75EE9BDC-5F76-4163-94BA-1A90582316FC",
     entries: 157,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "USA Badminton sanctioned Open Local Championship; U11/U13/U15/U17/U19 divisions."
   },
   {
@@ -629,8 +629,8 @@ const TOURNAMENTS = [
     prizeNote: "Prize money for all events, per Cal Badminton's Instagram announcement (amount not specified)",
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=7EEDD506-53C6-47E0-8E06-31B2D589CFDF",
-    entries: 189,
-    entriesUpdated: "2026-09-24",
+    entries: 198,
+    entriesUpdated: "2026-09-25",
     description: "Open divisions A/B/C/D. \"LXXII\" marks the tournament's 72nd annual running."
   },
   {
@@ -652,7 +652,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=02CCA815-2496-4997-AC0E-8F3B8FD47A4D",
     entries: 191,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: null
   },
   {
@@ -694,7 +694,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=A5A277E2-E158-4BAA-B1F5-6BA4B8F99014",
     entries: 357,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "USA Badminton sanctioned Open Regional Championship for the Northeast region; U11/U13/U15/U17/U19 divisions."
   },
   {
@@ -715,8 +715,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=F5DF78FA-2078-4BB0-86AF-AAE8DB4B2233",
-    entries: 45,
-    entriesUpdated: "2026-09-24",
+    entries: 46,
+    entriesUpdated: "2026-09-25",
     description: "Open plus U11/U14 and 45+. Entry handled via a separate rating-system platform rather than direct TournamentSoftware entry."
   },
   {
@@ -737,8 +737,8 @@ const TOURNAMENTS = [
     prizeNote: "Cash prize for A flight finalists, per Stanford Badminton's Instagram announcement (amount not specified)",
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=37133CCA-6DD6-484F-B874-D19B51C03B4C",
-    entries: 68,
-    entriesUpdated: "2026-09-24",
+    entries: 73,
+    entriesUpdated: "2026-09-25",
     description: "Open divisions A/B/C/D/J."
   },
   {
@@ -759,8 +759,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=1BA611C7-5BB9-4FEF-978E-7E1F86C286A6",
-    entries: 75,
-    entriesUpdated: "2026-09-24",
+    entries: 74,
+    entriesUpdated: "2026-09-25",
     description: "Open divisions A/B/C/D/J plus U11/U16."
   },
   {
@@ -781,8 +781,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=2361B522-B57A-4397-8E4D-DD58F2AF49F7",
-    entries: 57,
-    entriesUpdated: "2026-09-24",
+    entries: 66,
+    entriesUpdated: "2026-09-25",
     description: "USA Badminton sanctioned Open Local Championship; U11/U13/U15/U17/U19 divisions."
   },
   {
@@ -804,7 +804,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=A358C5A2-04CA-4861-8ABC-C7D3C569634B",
     entries: 0,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: null
   },
   {
@@ -825,8 +825,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=1C896952-0D7A-4862-BF91-07A7025FF291",
-    entries: 42,
-    entriesUpdated: "2026-09-24",
+    entries: 46,
+    entriesUpdated: "2026-09-25",
     description: "21-and-over division. Entry handled via a separate rating-system platform rather than direct TournamentSoftware entry."
   },
   {
@@ -847,8 +847,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=378084DD-90F9-4449-A9A6-AEAB6611703D",
-    entries: 27,
-    entriesUpdated: "2026-09-24",
+    entries: 29,
+    entriesUpdated: "2026-09-25",
     description: "Open Mens/Womens/Mixed Doubles, Funky Doubles (combined age 70+), Family/Junior Doubles, and Junior Singles. Junior (U16) fees waived thanks to sponsors. Also listed on Facebook (facebook.com/events/1538432384977567)."
   },
   {
@@ -869,8 +869,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=879C8DEC-B8E8-4AB4-8841-7D07D34950CF",
-    entries: 276,
-    entriesUpdated: "2026-09-24",
+    entries: 292,
+    entriesUpdated: "2026-09-25",
     description: "USA Badminton sanctioned Open Regional Championship; U11/U13/U15/U17/U19 divisions. Distinct from the earlier Bintang NorCal Open Local Championship in March."
   },
   {
@@ -892,7 +892,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=FC738607-2326-4D72-B704-C9B47BA2B7B4",
     entries: 25,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open divisions A/B/C/D/J, singles-only format."
   },
   {
@@ -914,7 +914,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=786BDF3A-236F-402A-A065-D6C3370E7F6D",
     entries: 0,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open plus U11 and 40+."
   },
   {
@@ -936,7 +936,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=BFA24072-D511-4628-B54E-9FC5A0DD660E",
     entries: 2,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open plus U11/U13/U15/U17 and 35+/45+/55+. Near Austin, TX."
   },
   {
@@ -958,7 +958,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=64923D76-00A1-457A-B87D-602D831E8352",
     entries: 10,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Senior/masters divisions only: 34+, 39+, 44+, 49+, 54+, 59+, 64+."
   },
   {
@@ -980,7 +980,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=5AA6988A-3A7F-455D-8945-0627A41B7F82",
     entries: 25,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open divisions A/B/17+/C plus Open, U11/U13/U15/U16/U17, and 40+/45+."
   },
   {
@@ -1002,7 +1002,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=B8AA03C7-DEAF-4703-BB26-38B5845E9DA1",
     entries: 0,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "USA Badminton sanctioned Open Local Championship; U11/U13/U15/U17/U19 divisions. A separate Midwest OLC was already held in January."
   },
   {
@@ -1024,7 +1024,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=13C25A98-AD65-43A9-ABF3-C80D6FB210C5",
     entries: 0,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "\"Closed\" championship (entry restricted, e.g. by residency/club) rather than an open regional; U11/U13/U15/U17/U19 divisions."
   },
   {
@@ -1046,7 +1046,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=1EB36537-8088-4C57-87B2-6DB1B834C292",
     entries: 47,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open divisions A/B/C/D/J plus 39+."
   },
   {
@@ -1087,8 +1087,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=CE48DA99-025A-4768-B470-A7DF3CB24CAE",
-    entries: 113,
-    entriesUpdated: "2026-09-24",
+    entries: 150,
+    entriesUpdated: "2026-09-25",
     description: "USA Badminton sanctioned open at Shannon Pohl Badminton Academy; Open plus U11/U15 and 45+ divisions."
   },
   {
@@ -1110,7 +1110,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=CBC25C13-1506-4A27-A54A-146490499099",
     entries: 12,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open divisions A/B, run directly by the Seattle Badminton Club."
   },
   {
@@ -1132,7 +1132,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=E2E991F2-F5D8-46EF-A703-8AC85F3398D4",
     entries: 7,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open plus 40+/50+ mixed doubles, run by the Michigan Open series at Sparc in Novi."
   },
   {
@@ -1153,8 +1153,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=D16B8F84-8217-4EED-BB5E-B23CB71B4233",
-    entries: 19,
-    entriesUpdated: "2026-09-24",
+    entries: 25,
+    entriesUpdated: "2026-09-25",
     description: "Open division tournament (MS/WS/MD/WD/XD) hosted by the Badminton Club at Iowa State University."
   },
   {
@@ -1175,8 +1175,8 @@ const TOURNAMENTS = [
     prizeNote: "Junior event; no cash prize",
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=49463E32-9434-464E-81EF-87879CFD8397",
-    entries: 17,
-    entriesUpdated: "2026-09-24",
+    entries: 24,
+    entriesUpdated: "2026-09-25",
     description: "Junior singles tournament (U9/U11/U13/U15/U17) hosted by Austin Badminton Academy's Pflugerville location; every registered player is guaranteed at least 3 matches."
   },
   {
@@ -1197,8 +1197,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=F7BCD4BE-9ACA-42AC-8472-131AF7DC6DAB",
-    entries: 2,
-    entriesUpdated: "2026-09-24",
+    entries: 3,
+    entriesUpdated: "2026-09-25",
     description: "Open A plus U11/U13/U15/U16 junior divisions, hosted by Fortius Sports Academy."
   },
   {
@@ -1220,7 +1220,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=3B01468B-50EC-45B6-A5AA-FB39FCA5D443",
     entries: 8,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open division tournament (MS/WS/MD/WD/XD) hosted by the University of Wisconsin-Madison Badminton Club."
   },
   {
@@ -1242,7 +1242,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=3FCA0BF9-9DB7-41B4-855D-4DD63A00A6F4",
     entries: 1,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open plus 50+ divisions (MS/WS/MD/WD/XD), hosted by Arch Pickleball & Badminton."
   },
   {
@@ -1264,7 +1264,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=29B5BFFA-ED41-49F5-8294-1E1F54A8D8A5",
     entries: 26,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open division tournament (MS/WS/MD/WD/XD) hosted by the Michigan Badminton Club at the University of Michigan."
   },
   {
@@ -1285,8 +1285,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=9CF3936E-F229-4A6B-9BAF-029715F36D92",
-    entries: 9,
-    entriesUpdated: "2026-09-24",
+    entries: 10,
+    entriesUpdated: "2026-09-25",
     description: "Renamed continuation of the Davis Fall Open, hosted by UC Davis Badminton Club at Elite Badminton Center. Open A/B/C/D plus WS/WD/XD/Singles/Doubles; only half the venue is rented, so early entry is encouraged."
   },
   {
@@ -1308,7 +1308,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=EFEEC121-0BA2-4252-96B2-D648DBE5B65A",
     entries: 4,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open B/C/D/J plus U11/U13/U15 junior divisions, hosted by F & K Tournaments at Sonic Badminton Academy."
   },
   {
@@ -1330,7 +1330,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=30FE2178-1674-4500-8E49-D63B363F07A6",
     entries: 1,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open B/C plus 35+ (WS/WD/XD) and 40+ (MS/MD) divisions, hosted by Austin Badminton Academy at their Leander location."
   },
   {
@@ -1351,8 +1351,8 @@ const TOURNAMENTS = [
     prizeNote: null,
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=28EA8EE0-4FDC-483B-A011-642BB22A8DEF",
-    entries: 3,
-    entriesUpdated: "2026-09-24",
+    entries: 4,
+    entriesUpdated: "2026-09-25",
     description: "Connecticut's junior state championship (U11/U15/U19 singles, doubles and mixed), hosted by Connecticut Badminton at Fly Badminton Club."
   },
   {
@@ -1374,7 +1374,7 @@ const TOURNAMENTS = [
     sourcePlatform: "TournamentSoftware",
     sourceUrl: "https://www.tournamentsoftware.com/sport/tournament?id=12054A44-A6FC-4F0B-AF1F-A2E307F2E79E",
     entries: 0,
-    entriesUpdated: "2026-09-24",
+    entriesUpdated: "2026-09-25",
     description: "Open A/B/C/D (MS/WS/MD/WD/XD) plus 40+, 45+, 55+ and 60+ age divisions, hosted by Houston Badminton Center."
   },
 

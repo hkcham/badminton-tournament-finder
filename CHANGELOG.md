@@ -2,6 +2,25 @@
 
 Daily data-maintenance log for `js/data.js`, kept by the scheduled refresh task.
 
+## 2026-09-25
+
+- No new tournaments or leagues found (checked TournamentSoftware tournaments and leagues, 2
+  Facebook pages, plus a web search for other club Facebook events). All 40 US tournament
+  results are already tracked apart from the placeholder listing named "TEST", which was skipped
+  again. League search still shows only the 2 upcoming leagues already tracked.
+- Every "Online Entry" countdown on TournamentSoftware matches the deadline already stored, so no
+  TournamentSoftware deadline changes today.
+~ Updated **Fall 2026 Pioneer Badminton Open** deadline from TBD to Nov 21, 2026 per its Facebook
+  event page, which now lists a registration and payment deadline (no time of day given, stored as
+  11:59 PM), a Nov 28 drop/refund deadline, and entry fees of $50/$70/$75 for 1/2/3 events.
+~ Refreshed entry counts on 37 upcoming TournamentSoftware tournaments (HBDF Hana Challenge and PBCA
+  Oktoberfest read directly on scba.tournamentsoftware.com); 16 changed. Biggest jumps: North Shore
+  Open 113 to 150, Bintang NorCal ORC 276 to 292, Golden Bear LXXII 189 to 198, Austin Leander South
+  OLC 57 to 66. NCBC Fall Open dipped from 75 to 74 (a withdrawal).
+- Facebook: SAABHOU lists only past events; the Pioneer Team Tournament is still marked canceled.
+- Local preview server could not be started in this unattended run, so data.js was instead
+  validated by parsing the whole array (67 entries, all ids and sourceUrls unique).
+
 ## 2026-09-24
 
 - No new tournaments or leagues found (checked TournamentSoftware tournaments and leagues, 2
