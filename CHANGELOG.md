@@ -2,6 +2,24 @@
 
 Daily data-maintenance log for `js/data.js`, kept by the scheduled refresh task.
 
+## 2026-09-26
+
++ Added **2026 TTS Adult Doubles Tournament** (Nashville Badminton Association, Hermitage
+  Community Center, Hermitage, TN; Sept 27): found via TournamentSoftware, first listed the day
+  before the event. Open MD/WD/XD, 50 entries. No online entry shown, so the deadline is left TBD.
+~ Updated **2026 PBCA Oktoberfest** deadline from Sept 26 to Oct 10, 2026 (11:59 PM PDT) per its
+  scba.tournamentsoftware.com page, which now lists that date as both the closing and withdrawal
+  deadline.
+- Every other "Online Entry" countdown on TournamentSoftware matches the deadline already stored.
+  The placeholder listing named "TEST" was skipped again. League search still shows only the 2
+  upcoming leagues already tracked.
+~ Refreshed entry counts on 37 upcoming TournamentSoftware tournaments (HBDF Hana Challenge and PBCA
+  Oktoberfest read directly on scba.tournamentsoftware.com); 16 changed. Biggest jumps: PBCA
+  Oktoberfest 46 to 62, Golden Bear LXXII 198 to 210, Austin Junior Smash #2 24 to 35, Bintang
+  NorCal ORC 292 to 300. PMR Law Houston Open got its first entry.
+- Facebook (2 pages checked): Pioneer Badminton still shows only the Dec 5-6 Fall Open, unchanged;
+  SAABHOU lists only past events.
+
 ## 2026-09-25
 
 - No new tournaments or leagues found (checked TournamentSoftware tournaments and leagues, 2
