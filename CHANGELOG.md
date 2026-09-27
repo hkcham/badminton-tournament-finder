@@ -2,6 +2,22 @@
 
 Daily data-maintenance log for `js/data.js`, kept by the scheduled refresh task.
 
+## 2026-09-27
+
+- No new tournaments or leagues found (checked TournamentSoftware tournaments and leagues, 3
+  Facebook pages, plus a web search for other club Facebook events). All 40 US tournament results
+  are already tracked apart from the placeholder listing named "TEST", which was skipped again.
+  League search still shows only the 2 upcoming leagues already tracked.
+- Every "Online Entry" countdown on TournamentSoftware matches the deadline already stored, so no
+  deadline changes today.
+~ Refreshed entry counts on 38 upcoming TournamentSoftware tournaments (HBDF Hana Challenge and PBCA
+  Oktoberfest read directly on scba.tournamentsoftware.com); 13 changed. Biggest jumps: PBCA
+  Oktoberfest 62 to 86, NCBC Fall Open 76 to 97, Golden Bear LXXII 210 to 230, Bintang NorCal ORC
+  300 to 316, HBDF Hana Challenge 47 to 59.
+- Facebook: the Pioneer Badminton events tab would not render without login today, so its two
+  tracked event pages were checked directly (Fall Open unchanged, Team Tournament still canceled).
+  SAABHOU and Bay Area Corporate Badminton Challenge list only past events.
+
 ## 2026-09-26
 
 + Added **2026 TTS Adult Doubles Tournament** (Nashville Badminton Association, Hermitage
