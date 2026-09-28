@@ -2,6 +2,22 @@
 
 Daily data-maintenance log for `js/data.js`, kept by the scheduled refresh task.
 
+## 2026-09-28
+
+- No new tournaments or leagues found (checked TournamentSoftware tournaments and leagues, 5
+  Facebook pages, plus the Capital Badminton Academy website). All 40 US tournament results are
+  already tracked apart from the placeholder listing named "TEST", which was skipped again. League
+  search still shows only the 2 upcoming leagues already tracked.
+- Every "Online Entry" countdown on TournamentSoftware matches the deadline already stored, so no
+  deadline changes today.
+~ Refreshed entry counts on 33 upcoming TournamentSoftware tournaments (HBDF Hana Challenge and PBCA
+  Oktoberfest read directly on scba.tournamentsoftware.com); 17 changed. Biggest jumps: Golden Bear
+  LXXII 230 to 261, Bintang NorCal ORC 316 to 335, HBDF Hana Challenge 59 to 75, Austin Leander
+  South OLC 80 to 94, Madison Badminton Invitational 33 to 42, NCBC Fall Open 97 to 105.
+- Facebook: Pioneer Badminton still shows only the Dec 5-6 Fall Open, unchanged; SAABHOU lists only
+  past events. Jacksonville Badminton Club and Minnesota Badminton (found via web search) list only
+  past events.
+
 ## 2026-09-27
 
 - No new tournaments or leagues found (checked TournamentSoftware tournaments and leagues, 3
