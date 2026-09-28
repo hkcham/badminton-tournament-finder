@@ -31,6 +31,14 @@
   const timeZoneSelect = document.getElementById("timeZoneSelect");
   const timeZoneStatus = document.getElementById("timeZoneStatus");
 
+  const toolbar = document.getElementById("toolbar");
+  const moreOptionsToggle = document.getElementById("moreOptionsToggle");
+  const moreOptionsSummary = document.getElementById("moreOptionsSummary");
+
+  const heroStats = document.getElementById("heroStats");
+  /** Instant of the soonest open deadline, so the ticker can refresh the stat. */
+  let nextDeadlineAt = null;
+
   /** The zone all "days left" counts are measured in. */
   let userZone = S.getUserTimeZone();
 
@@ -47,6 +55,13 @@
   injectStructuredData();
 
   // ---------- Event wiring ----------
+  // Only visible on phones (see .toolbar-toggle in style.css); on wider
+  // screens the location and time zone row is always shown.
+  moreOptionsToggle.addEventListener("click", () => {
+    const expanded = toolbar.classList.toggle("is-expanded");
+    moreOptionsToggle.setAttribute("aria-expanded", String(expanded));
+  });
+
   searchInput.addEventListener("input", S.debounce(render, 150));
   stateFilter.addEventListener("change", render);
   typeFilter.addEventListener("change", render);
@@ -158,18 +173,65 @@
     list = S.sortList(list, sortMode);
 
     const leagueCount = list.filter(S.isLeague).length;
-    const countLabel = leagueCount > 0 && typeVal === ""
-      ? `${list.length} shown (${leagueCount} league${leagueCount === 1 ? "" : "s"}, ${list.length - leagueCount} tournament${list.length - leagueCount === 1 ? "" : "s"})`
-      : `${list.length} ${typeVal === "league" ? "league" : "tournament"}${list.length === 1 ? "" : "s"} shown`;
-    resultsCount.textContent = countLabel;
+    const tournamentCount = list.length - leagueCount;
+    const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+    const noun = typeVal === "league" ? "league" : typeVal === "tournament" ? "tournament" : "event";
+    const breakdown = leagueCount > 0 && typeVal === ""
+      ? ` <span class="results-breakdown">${plural(tournamentCount, "tournament")}, ${plural(leagueCount, "league")}</span>`
+      : "";
+    resultsCount.innerHTML = `<strong>${list.length}</strong> ${noun}${list.length === 1 ? "" : "s"}${breakdown}`;
     sortDescription.textContent = describeSort(sortMode);
+
+    renderStats(all.map((t) => S.enrich(t, now, null, userZone)).filter(S.isRegisterable));
+    moreOptionsSummary.textContent =
+      `${S.timeZoneLabel(userZone)} · ${userCoords ? `Distances from ${userCoords.label}` : "No address set"}`;
 
     cardList.innerHTML = "";
     if (list.length === 0) {
-      cardList.innerHTML = `<div class="empty-state">No tournaments match your filters right now. Try widening your search.</div>`;
+      cardList.innerHTML = `
+        <div class="empty-state">
+          ${S.icon("search", "empty-state-icon")}
+          <p class="empty-state-title">No events match your filters</p>
+          <p>Try widening your search or clearing a filter.</p>
+        </div>`;
       return;
     }
     for (const t of list) cardList.appendChild(renderCard(t));
+  }
+
+  // ---------- Header stats ----------
+
+  /**
+   * Three at-a-glance numbers in the header. They describe everything open
+   * for registration, not the current filter, so they stay stable while the
+   * visitor searches.
+   */
+  function renderStats(open) {
+    if (!heroStats) return;
+    const states = new Set(open.map((t) => t.state).filter(Boolean)).size;
+    const upcoming = open
+      .filter((t) => t.deadline && t.msUntilDeadline > 0)
+      .sort((a, b) => a.deadline - b.deadline)[0];
+    nextDeadlineAt = upcoming ? upcoming.deadline : null;
+
+    heroStats.innerHTML = `
+      <div class="stat"><span class="stat-value">${open.length}</span><span class="stat-label">open for registration</span></div>
+      <div class="stat"><span class="stat-value">${states}</span><span class="stat-label">states</span></div>
+      <div class="stat"><span class="stat-value" id="nextDeadlineStat">${nextDeadlineText(new Date())}</span><span class="stat-label">until the next deadline</span></div>
+    `;
+  }
+
+  function nextDeadlineText(now) {
+    if (!nextDeadlineAt) return "None set";
+    const ms = nextDeadlineAt.getTime() - now.getTime();
+    if (ms <= 0) return "Closing now";
+    if (ms < 48 * 3600000) {
+      const h = Math.floor(ms / 3600000);
+      const m = Math.floor((ms % 3600000) / 60000);
+      return h >= 1 ? `${h}h ${String(m).padStart(2, "0")}m` : `${m}m`;
+    }
+    const days = S.calendarDaysBetween(now, nextDeadlineAt, userZone);
+    return days === 1 ? "1 day" : `${days} days`;
   }
 
   function describeSort(mode) {
@@ -184,34 +246,70 @@
     }
   }
 
+  /** Calendar-style tile showing the start date, for scanning down the list. */
+  function renderDateTile(t) {
+    if (!t.start) {
+      return `<div class="event-date is-tbd" aria-hidden="true"><span class="event-date-month">Date</span><span class="event-date-day">TBD</span></div>`;
+    }
+    // Calendar dates are stored as UTC midnight, so read them back in UTC.
+    const month = t.start.toLocaleDateString("en-US", { timeZone: "UTC", month: "short" });
+    const weekday = t.start.toLocaleDateString("en-US", { timeZone: "UTC", weekday: "short" });
+    return (
+      `<div class="event-date" aria-hidden="true">` +
+      `<span class="event-date-month">${month}</span>` +
+      `<span class="event-date-day">${t.start.getUTCDate()}</span>` +
+      `<span class="event-date-weekday">${weekday}</span></div>`
+    );
+  }
+
   function renderCard(t) {
-    const card = document.createElement("div");
-    card.className = "card" + (S.isLeague(t) ? " is-league" : "");
+    const card = document.createElement("article");
+    card.className = "event-card" + (S.isLeague(t) ? " is-league" : "");
 
     const dateRange = S.formatDateRange(t.start, t.end);
-    const deadlinePill = S.renderDeadlinePill(t);
+    const location = [t.venue, t.city, t.state].filter(Boolean).map(S.escapeHtml).join(", ");
     const entriesLabel = S.entriesLabel(t);
+    const note = S.deadlineNoteForDisplay(t);
+
+    // Actual prize money is rare, so it is the only case that gets emphasis;
+    // "none listed" is the common answer and stays quiet.
+    const prize =
+      t.prizeMoney != null
+        ? { cls: "has-prize", text: "$" + Number(t.prizeMoney).toLocaleString() + " prize purse" }
+        : t.prizeNote
+        ? { cls: "", text: t.prizeNote }
+        : { cls: "is-muted", text: "No prize money listed" };
 
     card.innerHTML = `
-      <div class="card-top">
-        <div class="card-title-row">
-          ${S.isLeague(t) ? `<span class="badge league-badge">League</span>` : ""}
-          <h3>${S.escapeHtml(t.name)}</h3>
-          ${t.level ? `<span class="badge level">${S.escapeHtml(t.level)}</span>` : ""}
+      ${renderDateTile(t)}
+      <div class="event-main">
+        <div class="event-tags">
+          ${S.isLeague(t) ? `<span class="tag tag-league">${S.icon("repeat")}League</span>` : ""}
+          ${t.level ? `<span class="tag">${S.escapeHtml(t.level)}</span>` : ""}
         </div>
-        ${deadlinePill}
+        <h3 class="event-title">${S.escapeHtml(t.name)}</h3>
+        <ul class="event-meta">
+          ${location ? `<li>${S.icon("pin")}<span>${location}</span></li>` : ""}
+          <li>${S.icon("calendar")}<span>${dateRange}</span></li>
+          ${t.distanceMiles != null ? `<li>${S.icon("route")}<span>${t.distanceMiles.toFixed(0)} mi away</span></li>` : ""}
+          ${entriesLabel ? `<li class="entries-meta" title="${S.escapeAttr(S.entriesTooltip(t))}">${S.icon("users")}<span>${S.escapeHtml(entriesLabel)}</span></li>` : ""}
+        </ul>
+        ${t.description ? `<p class="event-desc">${S.escapeHtml(t.description)}</p>` : ""}
+        ${note ? `<p class="event-note">${S.icon("info")}<span>${S.escapeHtml(note)}</span></p>` : ""}
+        <div class="event-foot">
+          <span class="prize ${prize.cls}">${S.icon("trophy")}<span>${S.escapeHtml(prize.text)}</span></span>
+          ${t.sourcePlatform ? `<span class="source-chip">via ${S.escapeHtml(t.sourcePlatform)}</span>` : ""}
+        </div>
       </div>
-      <div class="card-meta">
-        <span class="meta-item">📍 ${S.escapeHtml(t.venue || "")}${t.city ? `, ${S.escapeHtml(t.city)}` : ""}${t.state ? `, ${S.escapeHtml(t.state)}` : ""}</span>
-        <span class="meta-item">📅 ${dateRange}</span>
-        ${t.distanceMiles != null ? `<span class="meta-item">📏 ${t.distanceMiles.toFixed(0)} mi away</span>` : ""}
-        ${entriesLabel ? `<span class="meta-item entries-meta" title="${S.escapeAttr(S.entriesTooltip(t))}">👥 ${S.escapeHtml(entriesLabel)}</span>` : ""}
-        ${t.sourcePlatform ? `<span class="badge source">${S.escapeHtml(t.sourcePlatform)}</span>` : ""}
-      </div>
-      ${t.description ? `<p class="card-desc">${S.escapeHtml(t.description)}</p>` : ""}
-      <div class="card-footer">
-        <span class="prize">${t.prizeMoney != null ? "$" + Number(t.prizeMoney).toLocaleString() + " prize purse" : (t.prizeNote ? S.escapeHtml(t.prizeNote) : "No prize money listed")}</span>
-        ${t.sourceUrl ? `<a class="link-btn" href="${S.escapeAttr(t.sourceUrl)}" target="_blank" rel="noopener">View / Register →</a>` : ""}
+      <div class="event-side">
+        <div class="event-deadline">
+          <span class="event-side-label">Registration</span>
+          ${S.renderDeadlinePill(t)}
+        </div>
+        ${t.sourceUrl
+          ? `<a class="link-btn" href="${S.escapeAttr(t.sourceUrl)}" target="_blank" rel="noopener"` +
+            ` aria-label="View or register for ${S.escapeAttr(t.name)} (opens in a new tab)">View / Register${S.icon("arrow")}</a>`
+          : ""}
       </div>
     `;
 
@@ -289,6 +387,17 @@
           pill.classList.add(status);
         }
       });
+
+      const stat = document.getElementById("nextDeadlineStat");
+      if (stat) {
+        // Once the soonest deadline passes, re-render so the stat moves on to
+        // the next one (render also drops the lapsed card if it is visible).
+        if (nextDeadlineAt && nextDeadlineAt.getTime() <= now.getTime()) somethingLapsed = true;
+        else {
+          const text = nextDeadlineText(now);
+          if (stat.textContent !== text) stat.textContent = text;
+        }
+      }
 
       if (somethingLapsed) render();
     }, 1000);

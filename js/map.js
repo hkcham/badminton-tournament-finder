@@ -11,11 +11,13 @@
 
   const S = Shared;
 
+  // Keep in step with the --*-dot colours in css/style.css so markers, the
+  // legend and the sidebar dots all agree.
   const URGENCY_COLOR = {
-    urgent: "#c62828",
-    soon: "#b7791f",
-    ok: "#157a4a",
-    tbd: "#5a6b74",
+    urgent: "#d32f2f",
+    soon: "#d48806",
+    ok: "#1f9c5c",
+    tbd: "#7b8a92",
   };
 
   // ---------- DOM refs ----------
@@ -83,11 +85,11 @@
     const located = list.filter((t) => typeof t.lat === "number" && typeof t.lng === "number");
     const unlocated = list.length - located.length;
 
-    resultsCount.textContent = `${list.length} shown · ${located.length} on map`;
+    resultsCount.innerHTML = `<strong>${list.length}</strong> event${list.length === 1 ? "" : "s"} <span class="results-breakdown">${located.length} on the map</span>`;
 
     if (unlocated > 0) {
       unlocatedNote.hidden = false;
-      unlocatedNote.textContent = `${unlocated} matching tournament${unlocated === 1 ? "" : "s"} couldn't be placed on the map (no venue coordinates yet). Still visible in the sidebar list and the main List view.`;
+      unlocatedNote.textContent = `${unlocated} matching tournament${unlocated === 1 ? "" : "s"} couldn't be placed on the map (no venue coordinates yet). Still visible in the sidebar list and on the Tournaments page.`;
     } else {
       unlocatedNote.hidden = true;
     }
@@ -132,7 +134,7 @@
             fillColor: color,
             fillOpacity: 0.95,
           });
-      marker.bindPopup(renderPopup(t), { maxWidth: 280 });
+      marker.bindPopup(renderPopup(t), { maxWidth: 300, minWidth: 250 });
       marker.on("click", () => highlightSidebarRow(t.id));
       marker.addTo(markerLayer);
       markersById.set(t.id, marker);
@@ -173,20 +175,28 @@
 
   function renderPopup(t) {
     const dateRange = S.formatDateRange(t.start, t.end);
-    const deadlinePill = S.renderDeadlinePill(t);
+    const location = [t.venue, t.city, t.state].filter(Boolean).map(S.escapeHtml).join(", ");
+    const entries = S.entriesLabel(t);
+    const note = S.deadlineNoteForDisplay(t);
     return `
       <div class="map-popup">
-        <h4>${S.escapeHtml(t.name)}</h4>
-        <div style="margin-bottom:6px;">
-          ${S.isLeague(t) ? `<span class="badge league-badge">League</span> ` : ""}
-          ${t.level ? `<span class="badge level">${S.escapeHtml(t.level)}</span>` : ""}
+        <div class="event-tags">
+          ${S.isLeague(t) ? `<span class="tag tag-league">${S.icon("repeat")}League</span>` : ""}
+          ${t.level ? `<span class="tag">${S.escapeHtml(t.level)}</span>` : ""}
         </div>
-        <div>${deadlinePill}</div>
-        <div class="map-popup-meta">📍 ${S.escapeHtml(t.venue || "")}${t.city ? `, ${S.escapeHtml(t.city)}` : ""}${t.state ? `, ${S.escapeHtml(t.state)}` : ""}</div>
-        <div class="map-popup-meta">📅 ${dateRange}</div>
-        ${S.entriesLabel(t) ? `<div class="map-popup-meta" title="${S.escapeAttr(S.entriesTooltip(t))}">👥 ${S.escapeHtml(S.entriesLabel(t))}</div>` : ""}
-        <div class="map-popup-meta">${t.prizeMoney != null ? "💰 $" + Number(t.prizeMoney).toLocaleString() + " prize purse" : ""}</div>
-        ${t.sourceUrl ? `<a class="link-btn" style="margin-top:8px;display:inline-block;" href="${S.escapeAttr(t.sourceUrl)}" target="_blank" rel="noopener">View / Register →</a>` : ""}
+        <h4>${S.escapeHtml(t.name)}</h4>
+        ${S.renderDeadlinePill(t)}
+        <ul class="event-meta event-meta-stacked">
+          ${location ? `<li>${S.icon("pin")}<span>${location}</span></li>` : ""}
+          <li>${S.icon("calendar")}<span>${dateRange}</span></li>
+          ${entries ? `<li class="entries-meta" title="${S.escapeAttr(S.entriesTooltip(t))}">${S.icon("users")}<span>${S.escapeHtml(entries)}</span></li>` : ""}
+          ${t.prizeMoney != null ? `<li class="prize has-prize">${S.icon("trophy")}<span>$${Number(t.prizeMoney).toLocaleString()} prize purse</span></li>` : ""}
+        </ul>
+        ${note ? `<p class="event-note">${S.icon("info")}<span>${S.escapeHtml(note)}</span></p>` : ""}
+        ${t.sourceUrl
+          ? `<a class="link-btn" href="${S.escapeAttr(t.sourceUrl)}" target="_blank" rel="noopener"` +
+            ` aria-label="View or register for ${S.escapeAttr(t.name)} (opens in a new tab)">View / Register${S.icon("arrow")}</a>`
+          : ""}
       </div>
     `;
   }
@@ -194,7 +204,7 @@
   function renderSidebar(list) {
     sidebar.innerHTML = "";
     if (list.length === 0) {
-      sidebar.innerHTML = `<div class="empty-state" style="padding:24px 14px;">No tournaments match your filters.</div>`;
+      sidebar.innerHTML = `<div class="empty-state empty-state-compact">No events match your filters.</div>`;
       return;
     }
     for (const t of list) {
@@ -208,8 +218,8 @@
       row.innerHTML = `
         <span class="${shapeClass} ${status}" style="${hasLoc ? "" : "opacity:.25;"}"></span>
         <span class="map-sidebar-row-text">
-          <strong>${S.isLeague(t) ? "🔁 " : ""}${S.escapeHtml(t.name)}</strong>
-          <span>${t.city ? S.escapeHtml(t.city) + ", " : ""}${S.escapeHtml(t.state || "")} · ${S.formatDateRange(t.start, t.end)}</span>
+          <strong>${S.escapeHtml(t.name)}</strong>
+          <span>${S.isLeague(t) ? `<span class="mini-tag">League</span>` : ""}${t.city ? S.escapeHtml(t.city) + ", " : ""}${S.escapeHtml(t.state || "")} · ${S.formatDateRange(t.start, t.end)}</span>
         </span>
       `;
       row.addEventListener("click", () => {

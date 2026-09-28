@@ -6,6 +6,7 @@
 <title>Badminton Tournament Map | US Badminton Tournaments by Location</title>
 <meta name="description" content="Interactive map of badminton tournaments and leagues across the United States. See every US badminton tournament you can still register for, plotted by location and color-coded by registration deadline." />
 <meta name="keywords" content="badminton tournament map, badminton tournaments near me, US badminton, USA Badminton, badminton, badminton tournaments by state, badminton competitions map, badminton leagues" />
+<meta name="theme-color" content="#157a4a" />
 <link rel="canonical" href="https://usbadmintontournaments.com/map/" />
 
 <meta property="og:type" content="website" />
@@ -20,36 +21,47 @@
 <meta name="twitter:image" content="https://usbadmintontournaments.com/img/shuttle-logo.jpg" />
 
 <link rel="icon" href="../img/shuttle-logo.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<link rel="stylesheet" href="../css/style.css?v=5" />
+<link rel="stylesheet" href="../css/style.css?v=6" />
 </head>
-<body>
+<body class="page-map">
 
 <header class="site-header">
-  <div class="header-inner">
-    <div class="logo-badge">
-      <img src="../img/shuttle-logo.jpg" alt="Badminton shuttlecock logo" class="logo-img" />
+  <div class="container header-top">
+    <div class="brand">
+      <span class="logo-badge">
+        <img src="../img/shuttle-logo.jpg" alt="Badminton shuttlecock logo" class="logo-img" />
+      </span>
+      <div class="brand-text">
+        <h1>US Badminton Tournament Finder</h1>
+        <p>Badminton tournaments currently available in the United States, mapped.</p>
+      </div>
     </div>
-    <div class="site-title">
-      <h1>US Badminton Tournament Finder</h1>
-      <p>Badminton tournaments currently available in the United States, mapped.</p>
-    </div>
+    <nav class="view-switch" aria-label="Page views">
+      <a class="view-link" href="../tournaments/">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
+        Tournaments
+      </a>
+      <a class="view-link is-active" href="../map/" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2Z"/><path d="M9 3v16M15 5v16"/></svg>
+        Map
+      </a>
+    </nav>
   </div>
 </header>
 
-<nav class="tab-bar" aria-label="Page views">
-  <div class="tab-bar-inner">
-    <a class="tab-link" href="../tournaments/">🏸 Tournaments</a>
-    <a class="tab-link active" href="../map/">🗺️ Map</a>
-  </div>
-</nav>
-
-<main>
-  <section class="controls" aria-label="Map filters">
-    <div class="controls-row">
-      <div class="field" style="flex:1 1 220px;">
+<main class="container">
+  <section class="toolbar toolbar-map" aria-label="Map filters">
+    <div class="toolbar-primary">
+      <div class="field field-search">
         <label for="mapSearchInput">Search</label>
-        <input type="text" id="mapSearchInput" placeholder="Tournament, city, venue…" />
+        <div class="input-with-icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" id="mapSearchInput" placeholder="Tournament, city, venue…" autocomplete="off" />
+        </div>
       </div>
       <div class="field">
         <label for="mapStateFilter">State</label>
@@ -60,14 +72,14 @@
       <div class="field">
         <label for="mapTypeFilter">Type</label>
         <select id="mapTypeFilter">
-          <option value="">Tournaments &amp; leagues</option>
+          <option value="">All types</option>
           <option value="tournament">Tournaments only</option>
           <option value="league">Leagues only</option>
         </select>
       </div>
-      <div class="field">
-        <label>&nbsp;</label>
-        <div class="status-msg" id="mapResultsCount"></div>
+      <div class="field field-count field-sort">
+        <span class="field-label-spacer" aria-hidden="true">&nbsp;</span>
+        <div class="results-count" id="mapResultsCount" role="status"></div>
       </div>
     </div>
   </section>
@@ -80,9 +92,9 @@
       <div id="mapContainer"></div>
       <div id="mapLegend" class="map-legend">
         <strong>Registration deadline</strong>
-        <div class="legend-row"><span class="legend-dot urgent"></span> ≤ 3 days left</div>
-        <div class="legend-row"><span class="legend-dot soon"></span> 4–14 days left</div>
-        <div class="legend-row"><span class="legend-dot ok"></span> 15+ days left</div>
+        <div class="legend-row"><span class="legend-dot urgent"></span> 3 days or less</div>
+        <div class="legend-row"><span class="legend-dot soon"></span> 4 to 14 days</div>
+        <div class="legend-row"><span class="legend-dot ok"></span> 15+ days</div>
         <div class="legend-row"><span class="legend-dot tbd"></span> Deadline TBD</div>
         <hr class="legend-divider" />
         <div class="legend-row"><span class="legend-shape legend-shape-round"></span> Tournament</div>
@@ -95,16 +107,25 @@
 </main>
 
 <footer class="site-footer">
-  <p>
-    Map tiles &amp; geocoding by <a href="https://carto.com/" target="_blank" rel="noopener">CARTO</a> /
-    <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.
-    Marker positions are approximate (city/venue level). See the <a href="../tournaments/">Tournaments list</a> for full details and sorting.
-  </p>
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="logo-badge logo-badge-sm">
+        <img src="../img/shuttle-logo.jpg" alt="" class="logo-img" />
+      </span>
+      <span>US Badminton Tournament Finder</span>
+    </div>
+    <div class="footer-text">
+      <p>
+        Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.
+        Marker positions are approximate (city or venue level). See the <a href="../tournaments/">Tournaments list</a> for full details and sorting.
+      </p>
+    </div>
+  </div>
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="../js/data.js"></script>
-<script src="../js/shared.js?v=5"></script>
-<script src="../js/map.js?v=5"></script>
+<script src="../js/shared.js?v=6"></script>
+<script src="../js/map.js?v=6"></script>
 </body>
 </html>

@@ -340,3 +340,21 @@ already on file checked out against today's sources.
 + Two BWF-sanctioned events (Arise International Challenge, LA Open) keep no count: they redirect
   to bwf.tournamentsoftware.com and require a login. Leagues resolve to organization pages with no
   entries figure, so they have no count either.
+
+## 2026-09-28 (site redesign)
+
+~ Redesigned both pages for a cleaner, more professional look. Same court green and white scheme,
+  same solid green header, same features.
++ Header: title and subtitle unchanged, Tournaments/Map switch moved into the header, and a live
+  strip showing how many events are open, how many states they span, and the time until the next
+  deadline.
++ Cards: calendar-style date tile, icons in place of emoji, a registration column with the live
+  countdown, and View / Register still pinned to the bottom-right corner.
+~ Undated deadline notes (some run to several sentences) now show in their own note box instead of
+  stretching the deadline badge.
+~ On phones, location and time zone settings fold behind a toggle with a one-line summary, which
+  brings the first tournament about 300px higher up the page.
+~ Type filter default renamed from "Tournaments & leagues" to "All types" so it fits on phones.
+~ Footer privacy line corrected: a typed address is sent to OpenStreetMap Nominatim to look up its
+  coordinates, so "nothing is sent to a server" was not accurate. Map page credits now name
+  OpenStreetMap rather than CARTO, whose tiles the site no longer uses.

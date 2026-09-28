@@ -398,13 +398,23 @@ const Shared = (function () {
     return formatDeadlineIn(t.deadlineAtVenue || t.deadline, t.venueZone);
   }
 
+  /**
+   * The deadline status block. Markup contract the live ticker in app.js relies
+   * on: the outer element carries data-deadline plus the urgency class, and the
+   * text to refresh lives in .deadline-countdown. The same markup is styled as
+   * a stacked block on cards and as an inline pill in map popups.
+   */
   function renderDeadlinePill(t) {
     const status = urgencyStatus(t);
+    const dot = `<span class="deadline-dot" aria-hidden="true"></span>`;
     if (status === "past") {
-      return `<span class="deadline-pill past">${t.isPast ? "Event has passed" : "Registration closed"}</span>`;
+      return `<span class="deadline-pill past">${dot}<span class="deadline-text"><span class="deadline-countdown">${t.isPast ? "Event has passed" : "Registration closed"}</span></span></span>`;
     }
     if (status === "tbd") {
-      return `<span class="deadline-pill tbd">Deadline: ${t.deadlineNote ? escapeHtml(t.deadlineNote) : "TBD"}</span>`;
+      // Deadline notes on undated events can run to a few sentences, so they
+      // are shown separately (see deadlineNoteForDisplay) instead of stretching
+      // this block.
+      return `<span class="deadline-pill tbd">${dot}<span class="deadline-text"><span class="deadline-countdown">Deadline TBD</span><span class="deadline-when">${t.deadlineNote ? "See the note for details" : "Not announced yet"}</span></span></span>`;
     }
     const label = countdownLabel(t.msUntilDeadline, t.daysUntilDeadline);
     // Shown in the viewer's own zone. The organizer's stated local time is
@@ -426,7 +436,43 @@ const Shared = (function () {
       ` data-venue-zone="${escapeAttr(t.venueZone)}"` +
       ` data-deadline-id="${escapeAttr(t.id)}"` +
       ` title="${escapeAttr(tip)}">` +
-      `<span class="deadline-countdown">${label}</span> · ${escapeHtml(when)}</span>`
+      dot +
+      `<span class="deadline-text"><span class="deadline-countdown">${label}</span>` +
+      `<span class="deadline-when">${escapeHtml(when)}</span></span></span>`
+    );
+  }
+
+  /**
+   * The explanatory note for an event with no fixed deadline, or null. Dated
+   * deadlines keep their note in the tooltip instead, since there it is only
+   * a clarification ("11:59 PM") rather than the main information.
+   */
+  function deadlineNoteForDisplay(t) {
+    return urgencyStatus(t) === "tbd" && t.deadlineNote ? t.deadlineNote : null;
+  }
+
+  // ---------- Icons ----------
+
+  // Stroke icons drawn on a 24px grid. They inherit currentColor, so they pick
+  // up whatever text colour surrounds them.
+  const ICON_PATHS = {
+    pin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+    calendar: '<rect x="3" y="4.5" width="18" height="17" rx="2.5"/><path d="M16 2.5v4M8 2.5v4M3 10h18"/>',
+    route: '<path d="M3 11 21 3l-8 18-2-8-8-2Z"/>',
+    users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+    trophy: '<path d="M8 21h8M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>',
+    arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+    info: '<circle cx="12" cy="12" r="9"/><path d="M12 16v-4.5M12 8h.01"/>',
+    repeat: '<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',
+    search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  };
+
+  function icon(name, extraClass) {
+    const paths = ICON_PATHS[name];
+    if (!paths) return "";
+    return (
+      `<svg class="icon${extraClass ? " " + extraClass : ""}" viewBox="0 0 24 24" fill="none" stroke="currentColor"` +
+      ` stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${paths}</svg>`
     );
   }
 
@@ -552,7 +598,7 @@ const Shared = (function () {
     timeZoneLabel, zoneAbbrev, getZonedParts, zonedWallClockToInstant,
     calendarDaysBetween, calendarDaysAcrossZones, parseCalendarDate,
     enrich, isRegisterable, isLeague, compareNullableDates, sortList,
-    urgencyStatus, renderDeadlinePill, countdownLabel,
+    urgencyStatus, renderDeadlinePill, deadlineNoteForDisplay, countdownLabel, icon,
     formatDeadlineIn, formatDeadlineInUserZone, formatDeadlineInVenueZone,
     formatDate, formatDateRange, entriesLabel, entriesTooltip,
     escapeHtml, escapeAttr, haversineMiles,
