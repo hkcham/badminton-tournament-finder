@@ -358,3 +358,17 @@ already on file checked out against today's sources.
 ~ Footer privacy line corrected: a typed address is sent to OpenStreetMap Nominatim to look up its
   coordinates, so "nothing is sent to a server" was not accurate. Map page credits now name
   OpenStreetMap rather than CARTO, whose tiles the site no longer uses.
+
+## 2026-09-30
+
++ Added 'Arizona Championships 2026' (Mesa, AZ, Nov 7 to 8): found via TournamentSoftware, deadline Nov 5,
+  cash prizes for open finalists with amounts to be set later.
++ Added '2026 Vistara South Open Local Championships' (Lewisville, TX, Dec 12 to 13): found via
+  TournamentSoftware; deadline not posted yet, so left as TBD.
++ Added league 'Peak Sports League - Season1' (Morrisville, NC, Oct 23 to Nov 28): found via
+  TournamentSoftware league search; no sign-up deadline listed.
+~ Updated '2026 Golden Bear LXXII' deadline from Sept 28 to Sept 30 per its TournamentSoftware page.
+~ Refreshed entry counts on 35 upcoming TournamentSoftware events (20 existing counts changed, plus the 2 new events).
+- Skipped a TournamentSoftware listing named "TEST" (a USA Badminton test event, not a real tournament).
+- Checked 3 Facebook pages (SAABHOU, Pioneer Badminton, Capital Badminton): no new events. The Pioneer Fall Open
+  event page is unchanged.
