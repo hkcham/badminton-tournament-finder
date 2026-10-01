@@ -372,3 +372,13 @@ already on file checked out against today's sources.
 - Skipped a TournamentSoftware listing named "TEST" (a USA Badminton test event, not a real tournament).
 - Checked 3 Facebook pages (SAABHOU, Pioneer Badminton, Capital Badminton): no new events. The Pioneer Fall Open
   event page is unchanged.
+
+## 2026-10-01
+
+- No new tournaments or leagues found (checked TournamentSoftware tournaments and leagues, 2 Facebook pages
+  (SAABHOU, Pioneer Badminton) plus the Pioneer Fall Open event page, and the Capital Badminton and Frisco
+  Badminton club websites).
+~ Refreshed entry counts on 35 upcoming TournamentSoftware events (16 changed, e.g. North Shore Open 150 to 186,
+  Austin Leander South OLC 141 to 174, Bintang NorCal ORC 403 to 420).
+- All TournamentSoftware deadline countdowns still match the stored deadlines, so no deadline changes.
+- Skipped the TournamentSoftware listing named "TEST" (a USA Badminton test event, not a real tournament).
