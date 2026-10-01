@@ -382,3 +382,24 @@ already on file checked out against today's sources.
   Austin Leander South OLC 141 to 174, Bintang NorCal ORC 403 to 420).
 - All TournamentSoftware deadline countdowns still match the stored deadlines, so no deadline changes.
 - Skipped the TournamentSoftware listing named "TEST" (a USA Badminton test event, not a real tournament).
+
+## 2026-10-01 (Instagram sweep)
+
+- Ran the Apify `instagram-scraper` actor once across 38 accounts, last 10 posts per account (374
+  posts returned, including a few cross-tagged posts from other accounts; 1 restricted post from
+  `zh0._.ism` was unreadable). The working copy of `badminton instagrams.txt` currently holds
+  unrelated notes rather than URLs, so this sweep used the 38-account list as last committed.
++ Added **GTBC Open Fall 2026** (`ig-gtbc-open-fall-2026`): the Badminton Club at Georgia Tech's
+  annual open tournament, open to all universities, Oct 10-11 at the Georgia Tech Campus Recreation
+  Center (Advanced brackets Saturday, Novice Sunday). Sign up and pay by Oct 7, 11:59 PM. Fees and
+  prize details are taken from the `@gtbadmintonclub` post and flyer. Note: this entry was picked up
+  by the 2026-10-01 daily refresh commit, which ran at the same time.
+- Already on file, no changes needed: UIUC Fall Open (deadline Oct 4 still matches), Madison Open
+  2026, UofM Open Fall 2026, 2026 Cardinal Open and 2026 Golden Bear LXXII; their Instagram posts
+  match what is stored.
+- Skipped the Amherst Invitational post (`@amherst_invitational`, hosted by UMass and Amherst): the
+  caption and video cover give no date or venue, so it can't be confirmed as a future event yet.
+  Worth rechecking on the next sweep.
+- Everything else was tryouts, practice schedules, involvement fairs, officer introductions,
+  socials, fundraisers, intraclub events (such as UTBC's intraclub tournament) or recaps of past
+  events (CMU Open on Sept 19-20 has now passed).
