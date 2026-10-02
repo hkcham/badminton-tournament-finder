@@ -403,3 +403,19 @@ already on file checked out against today's sources.
 - Everything else was tryouts, practice schedules, involvement fairs, officer introductions,
   socials, fundraisers, intraclub events (such as UTBC's intraclub tournament) or recaps of past
   events (CMU Open on Sept 19-20 has now passed).
+
+## 2026-10-02
+
+~ Updated '2026 Golden Bear LXXII' deadline from Sept 30 to Oct 2, 2:00 PM Pacific: its TournamentSoftware page
+  shows the entry window extended again. Also corrected its venue from the organizer name to San Francisco Sport
+  Club, 440 California Ave (Treasure Island), with map coordinates geocoded to that address.
+~ Refreshed entry counts on 35 upcoming TournamentSoftware events (HBDF Hana Challenge and PBCA Oktoberfest read
+  directly on scba.tournamentsoftware.com); 19 changed. Biggest jumps: Bintang NorCal ORC 420 to 445, HBDF Hana
+  Challenge 102 to 121, PBCA Oktoberfest 90 to 106, Iowa Open 48 to 58, NCBC Fall Open 137 to 145.
+- No new tournaments or leagues added (checked TournamentSoftware tournaments and leagues, 2 Facebook pages: SAABHOU,
+  which lists only past events, and Pioneer Badminton via its Fall Open event page, unchanged). League search still
+  shows only the 3 leagues already tracked.
+- Skipped 'In-House 2026' (Badminton Club at NC State, Raleigh, Oct 3), newly listed on TournamentSoftware: it is
+  the club's in-house tournament and its entry deadline (Sept 30) has already passed.
+- Skipped the TournamentSoftware listing named "TEST" (a USA Badminton test event, not a real tournament).
+- All other "Online Entry" countdowns still match the stored deadlines.
