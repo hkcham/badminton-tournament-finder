@@ -419,3 +419,25 @@ already on file checked out against today's sources.
   the club's in-house tournament and its entry deadline (Sept 30) has already passed.
 - Skipped the TournamentSoftware listing named "TEST" (a USA Badminton test event, not a real tournament).
 - All other "Online Entry" countdowns still match the stored deadlines.
+
+## 2026-10-03
+
++ Added four 2027 USA Badminton junior regionals found on TournamentSoftware by searching past the listing's
+  default date window (it only shows events through early January, so these had never been picked up):
+  **2027 YONEX Arena SoCal ORC** (Pomona, Jan 16-18, deadline Dec 17, 11:59 AM PST), **2027 Egret Midwest Closed
+  Regional Championships** (Schaumburg, Jan 30-31, entry not open yet so deadline left TBD), **2027 YONEX DFW
+  Badminton South ORC** (Lewisville, Feb 13-15, deadline Jan 14, 11:59 AM PST) and **2027 YONEX SPBA Midwest ORC**
+  (Vernon Hills, May 29-31, deadline Apr 29, 11:59 AM PDT). Venues geocoded with Nominatim; Egret Badminton has no
+  street address on its page, so it is placed at Schaumburg's city center.
+~ Refreshed entry counts on 35 upcoming TournamentSoftware events (HBDF Hana Challenge and PBCA Oktoberfest read
+  directly on scba.tournamentsoftware.com); 16 changed. Biggest jumps: Bintang NorCal ORC 445 to 467, PBCA
+  Oktoberfest 106 to 122, Iowa Open 58 to 73, HBDF Hana Challenge 121 to 132, ATM Badminton Tournament 12 to 20.
+- Checked TournamentSoftware tournaments and leagues (league search still shows only the 3 leagues already
+  tracked) and 2 Facebook pages (SAABHOU lists only past events; Pioneer Badminton's Fall Open event page is
+  unchanged).
+- Skipped 'Class Tournament' (Michigan Open, Novi, Oct 3-4), newly listed on TournamentSoftware: it is already
+  underway and its entry deadline (Oct 2) has passed.
+- Skipped 'US Open 2027' (BWF World Tour Super 300, Los Angeles, July 6-11, 2027): it sits behind the BWF login, no
+  venue or deadline is public, and entry is through national federations rather than open registration.
+- Skipped the TournamentSoftware listing named "TEST" (a USA Badminton test event, not a real tournament).
+- All "Online Entry" countdowns still match the stored deadlines.
