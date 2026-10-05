@@ -455,3 +455,18 @@ already on file checked out against today's sources.
 - Skipped 'Class Tournament' (Michigan Open, Novi, Oct 3-4, already underway), 'US Open 2027' (BWF login, entry via
   national federations) and the "TEST" listing, as on previous days.
 - All other "Online Entry" countdowns still match the stored deadlines.
+
+## 2026-10-05
+
++ Added '2026 NVBC OPEN - DIVISION B-C-D, Juniors & Seniors' (Northern Virginia Badminton Club, Ashburn, VA, Dec 4-6):
+  newly listed on TournamentSoftware with entry opening today, deadline Nov 29, 11:59 PM EST. Venue geocoded with
+  Nominatim; 0 entries so far.
+~ Refreshed entry counts on 36 upcoming TournamentSoftware events (HBDF Hana Challenge and PBCA Oktoberfest read
+  directly on scba.tournamentsoftware.com); 15 changed. Biggest jumps: Cardinal Open 129 to 142, HBDF Hana Challenge
+  143 to 156, Bintang NorCal ORC 501 to 512, NCBC Fall Open 149 to 154, SBC Open 36 to 40.
+- No other new tournaments or leagues (checked TournamentSoftware tournaments through Dec 2027 and leagues, 2
+  Facebook pages: SAABHOU, which lists only past events, and Pioneer Badminton via its Fall Open event page,
+  unchanged). League search still shows only the 3 leagues already tracked.
+- Skipped 'In-House 2026' (NC State, Oct 3) and 'Class Tournament' (Novi, Oct 3-4), both already over, 'US Open 2027'
+  (BWF login, entry via national federations) and the "TEST" listing, as on previous days.
+- All "Online Entry" countdowns still match the stored deadlines.
