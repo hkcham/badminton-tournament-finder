@@ -441,3 +441,17 @@ already on file checked out against today's sources.
   venue or deadline is public, and entry is through national federations rather than open registration.
 - Skipped the TournamentSoftware listing named "TEST" (a USA Badminton test event, not a real tournament).
 - All "Online Entry" countdowns still match the stored deadlines.
+
+## 2026-10-04
+
+~ Updated 'Iowa Open 2026' deadline from Oct 3 to Oct 10, 11:59 PM CDT: its TournamentSoftware page now shows the
+  closing deadline extended a week (last changed Oct 3).
+~ Refreshed entry counts on 39 upcoming or in-progress TournamentSoftware events (HBDF Hana Challenge and PBCA
+  Oktoberfest read directly on scba.tournamentsoftware.com); 19 changed. Biggest jumps: Bintang NorCal ORC 467 to
+  501, Iowa Open 73 to 107, Cardinal Open 110 to 129, HBDF Hana Challenge 132 to 143, UofM Open 55 to 66.
+- No new tournaments or leagues added (checked TournamentSoftware tournaments through Dec 2027 and leagues, 2
+  Facebook pages: SAABHOU, which lists only past events, and Pioneer Badminton via its Fall Open event page,
+  unchanged). League search still shows only the 3 leagues already tracked.
+- Skipped 'Class Tournament' (Michigan Open, Novi, Oct 3-4, already underway), 'US Open 2027' (BWF login, entry via
+  national federations) and the "TEST" listing, as on previous days.
+- All other "Online Entry" countdowns still match the stored deadlines.
