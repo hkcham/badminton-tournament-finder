@@ -470,3 +470,19 @@ already on file checked out against today's sources.
 - Skipped 'In-House 2026' (NC State, Oct 3) and 'Class Tournament' (Novi, Oct 3-4), both already over, 'US Open 2027'
   (BWF login, entry via national federations) and the "TEST" listing, as on previous days.
 - All "Online Entry" countdowns still match the stored deadlines.
+
+## 2026-10-06
+
++ Added '2026 Los Cab Badminton Winter Open' (SCBA, Los Cab Sports Club, Fountain Valley, CA, Dec 19-20): newly listed
+  on TournamentSoftware (entry opened Oct 5), deadline Dec 13, 11:59 PM PST, entry via the SCBA rating system. Venue
+  geocoded with Nominatim; 1 entry so far.
+~ Updated '2026 Austin Leander South Open Local Championships' deadline from Oct 1 to Oct 8, 11:59 AM PDT: its
+  TournamentSoftware page now shows the closing deadline extended a week (last changed Oct 5).
+~ Refreshed entry counts on 37 upcoming TournamentSoftware events (HBDF Hana Challenge, PBCA Oktoberfest and Los Cab
+  Winter Open read directly on scba.tournamentsoftware.com); 19 changed. Biggest jumps: Bintang NorCal ORC 512 to 556,
+  Cardinal Open 142 to 167, UofM Open 67 to 78, PBCA Oktoberfest 126 to 135, HBDF Hana Challenge 156 to 164.
+- No other new tournaments or leagues (checked TournamentSoftware tournaments through Dec 2027 and leagues, 2
+  Facebook pages: SAABHOU, which lists only past events, and Pioneer Badminton via its Fall Open event page,
+  unchanged). League search still shows only the 3 leagues already tracked.
+- Skipped 'US Open 2027' (BWF login, entry via national federations) and the "TEST" listing, as on previous days.
+- All other "Online Entry" countdowns still match the stored deadlines.
