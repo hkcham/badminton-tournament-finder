@@ -486,3 +486,17 @@ already on file checked out against today's sources.
   unchanged). League search still shows only the 3 leagues already tracked.
 - Skipped 'US Open 2027' (BWF login, entry via national federations) and the "TEST" listing, as on previous days.
 - All other "Online Entry" countdowns still match the stored deadlines.
+
+## 2026-10-07
+
+~ Updated "Aggie Open '26" deadline from Oct 31 to Nov 8, 11:59 PM PST: its TournamentSoftware page now shows the
+  closing deadline extended (last changed Oct 7), with withdrawals allowed until Nov 9.
+~ Refreshed entry counts on 37 upcoming TournamentSoftware events (HBDF Hana Challenge, PBCA Oktoberfest and Los Cab
+  Winter Open read directly on scba.tournamentsoftware.com); 18 changed. Biggest jumps: Bintang NorCal ORC 556 to 603,
+  Cardinal Open 167 to 182, HBDF Hana Challenge 164 to 172, Austin Leander South OLC 185 to 189, ATM Badminton
+  Tournament 31 to 35, PBCA Oktoberfest 135 to 139.
+- No new tournaments or leagues (checked TournamentSoftware tournaments through Dec 2027 and leagues, 2 Facebook
+  pages: SAABHOU, which lists only past events, and Pioneer Badminton via its Fall Open event page, unchanged). League
+  search still shows only the 3 leagues already tracked.
+- Skipped 'US Open 2027' (BWF login, entry via national federations) and the "TEST" listing, as on previous days.
+- All other "Online Entry" countdowns still match the stored deadlines.
