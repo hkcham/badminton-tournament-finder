@@ -500,3 +500,36 @@ already on file checked out against today's sources.
   search still shows only the 3 leagues already tracked.
 - Skipped 'US Open 2027' (BWF login, entry via national federations) and the "TEST" listing, as on previous days.
 - All other "Online Entry" countdowns still match the stored deadlines.
+
+## 2026-10-13
+
+Note: no runs were committed between Oct 8 and Oct 12. An Oct 12 pass edited js/data.js but stopped before writing
+a changelog entry or committing. Those edits were re-checked against TournamentSoftware today and are included here.
+
++ Added 'UGABC Fall Bash 2026' (University of Georgia Badminton Club, Ramsey Student Center, Athens, GA, Nov 7): newly
+  listed on TournamentSoftware (entry opened Oct 12), deadline Nov 3, 11:59 PM EST. Venue geocoded with Nominatim;
+  1 entry so far.
++ Added (from the Oct 12 pass, confirmed today) 'Taiwan Double Tenth Party Tournament' (Synergy Badminton Mission,
+  Fremont, CA, Oct 15; no online entry), 'UCLA 26-27 SCCBL Preseason' (UCLA, Oct 17, deadline Oct 15),
+  'Bintang Badminton Fall 2026 U9 Open' (Fremont, Nov 7-8, deadline Oct 15) and 'Bruin Open 2026' (UCLA, Nov 7-8,
+  deadline Oct 31).
+~ Updated '2026 Cardinal Open' deadline from Oct 11 to Oct 12 and venue to Elite Badminton Center, 33540 Central Ave,
+  Union City, per its TournamentSoftware page (from the Oct 12 pass, confirmed today).
+~ Updated '2026 YONEX Bintang NorCal Open Regional Championships' deadline from Oct 8 to Oct 15, 11:59 AM PDT, and
+  venue to Bintang Badminton, 48900 Milmont Dr, Fremont (from the Oct 12 pass, confirmed today).
+~ Updated 'Iowa Open 2026' deadline from Oct 10 to Oct 12, 11:59 PM CDT (from the Oct 12 pass, confirmed today).
+~ Updated 'Peak Sports League - Season1' sign-up deadline from TBD to Oct 14, 11:59 PM EDT, and its end date from
+  Nov 28 to Nov 21: its TournamentSoftware league page now lists team and player nomination deadlines and a schedule
+  of five Friday/Saturday weekends ending Nov 21.
+~ Refreshed entry counts on 39 upcoming TournamentSoftware events (HBDF Hana Challenge, PBCA Oktoberfest and Los Cab
+  Winter Open read directly on scba.tournamentsoftware.com); 14 changed since the Oct 12 pass. Biggest jumps since
+  the last commit (Oct 7): Cardinal Open 182 to 394, HBDF Hana Challenge 172 to 314, Bintang NorCal ORC 603 to 690,
+  UofM Open 81 to 129, Madison Open 23 to 59, Aggie Open 21 to 48.
+- Skipped 'ABO2026' (Apple Badminton, Oct 17): TournamentSoftware lists its location as "TBD" with no venue, city or
+  online entry, so it cannot be placed on the map yet. Will add if a venue is posted before the event.
+- Skipped 'US Open 2027' (BWF login, entry via national federations) and the "TEST" listing, as on previous days.
+  'Amherst Invitational 2026' (league search, Oct 10) is already past.
+- No new Facebook events (checked 3 Facebook pages: SAABHOU and Capital Badminton Academy, which list only past
+  events, and Pioneer Badminton via its two event pages: Fall Open unchanged, Team Tournament still canceled).
+- All other "Online Entry" countdowns still match the stored deadlines. League search still shows only the 3 leagues
+  already tracked.
