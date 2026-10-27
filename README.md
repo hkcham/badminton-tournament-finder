@@ -223,6 +223,7 @@ exactly this automatically for the three sources it checks.) Field reference:
 | `lat`, `lng` | Needed for the distance sort. Easiest way: search the address on [Google Maps](https://maps.google.com), right-click the pin → the first menu item is the coordinates → click to copy. Or use [Nominatim](https://nominatim.openstreetmap.org/ui/search.html). |
 | `startDate`, `endDate` | `"YYYY-MM-DD"`, or `null` if not yet announced. For a league, its season's first/last date. |
 | `registrationDeadline` | `"YYYY-MM-DDTHH:mm:ss"` in local time, or `null` if unknown. For a league, its sign-up deadline. |
+| `canceled` | Omit for an event that's going ahead. Set to `true` once the organizer cancels it, which hides it from the list, the map and the header stats. Keep the real name and deadline; note the cancellation in `deadlineNote`. |
 | `prizeMoney` | A plain number (USD) or `null` if there's no cash prize |
 | `level` | Free text, e.g. `"National Championship"`, `"Independent Open Tournament"`, `"College Club"`, or for a league `"Team League"` / `"Collegiate Team League"` |
 | `sourcePlatform` | `"TournamentSoftware"`, `"Facebook"`, `"Instagram"`, `"Club Website"`, or `"USA Badminton"` |

@@ -286,9 +286,9 @@ const Shared = (function () {
     };
   }
 
-  /** Only tournaments that can still plausibly be registered for. */
+  /** Only tournaments that can still plausibly be registered for (never a canceled one). */
   function isRegisterable(t) {
-    return !t.isPast && !t.deadlinePassed;
+    return !t.canceled && !t.isPast && !t.deadlinePassed;
   }
 
   /** true for a league entry; absence of activityType means "tournament". */

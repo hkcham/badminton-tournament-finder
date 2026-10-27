@@ -30,6 +30,15 @@
  * show "TBD"). For a league this is the season sign-up deadline, not a
  * per-match date.
  *
+ * canceled: set to true when the organizer has canceled the event. A canceled
+ * entry is hidden everywhere (list, map, header stats and search-engine
+ * structured data), however far off its deadline is. Keep the real name,
+ * dates and deadline as they were; don't prefix the name with "[CANCELED]"
+ * or null the deadline to hide it (a null deadline reads as "TBD", which
+ * still shows the event as open). Put where and when the cancellation was
+ * seen in deadlineNote. Omit the field entirely for an event that's going
+ * ahead; that's the default.
+ *
  * entries / entriesUpdated: how many players have signed up so far, plus the
  * date that number was read. Only TournamentSoftware publishes this, on the
  * tournament overview page next to the "Events" count, so most non-TS entries
@@ -254,7 +263,8 @@ const TOURNAMENTS = [
   },
   {
     id: "pioneer-team-tournament-fall-2026",
-    name: "[CANCELED] 2026 Pioneer Team Tournament Fall",
+    name: "2026 Pioneer Team Tournament Fall",
+    canceled: true,
     level: "Independent Open Tournament",
     venue: "Pioneer Badminton",
     city: "Bolingbrook",
@@ -264,7 +274,7 @@ const TOURNAMENTS = [
     lng: -88.1001,
     startDate: "2026-12-05",
     endDate: "2026-12-06",
-    registrationDeadline: null,
+    registrationDeadline: "2026-11-21T23:59:00",
     deadlineNote: "This event was canceled per its Facebook event page (checked 2026-09-15); no longer accepting registration",
     prizeMoney: null,
     prizeNote: "Cash prizes to 1st place and runner-up teams (amount not listed); $600 entry fee per team",
